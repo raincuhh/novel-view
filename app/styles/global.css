@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+
+@theme inline {
+
+  --z-background: var(--layer-background);
+  --z-sidebar: var(--layer-sidebar);
+  --z-header: var(--layer-header);
+  --z-popup: var(--layer-popup);
+  --z-modal: var(--layer-modal);
+  --z-menu: var(--layer-menu);
+  --z-tooltip: var(--layer-tooltip);
+  --z-notification: var(--layer-notification);
+  --z-dragging: var(--layer-dragging);
+  --z-splash: var(--layer-splash);
+  --z-native: var(--layer-native);
+  --z-titlebar: var(--layer-titlebar);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --base-10: oklch(100% 0 0);
+  --base-20: oklch(95% 0 0);
+  --base-30: oklch(90% 0 0);
+  --base-40: oklch(80% 0 0);
+  --base-50: oklch(70% 0 0);
+  --base-60: oklch(60% 0 0);
+  --base-70: oklch(50% 0 0);
+  --base-80: oklch(40% 0 0);
+  --base-90: oklch(30% 0 0);
+  --base-100: oklch(20% 0 0);
+
+  --accent-h: 259;
+  --accent-s: 51%;
+  --accent-l: 45%;
+
+  --accent: var(--accent-h), var(--accent-s), var(--accent-l);
+  --accent-hsl: hsl(var(--accent));
+
+  --accent-1: hsl(calc(var(--accent-h) - 3), calc(var(--accent-s) * 1.07), calc(var(--accent-l) * 1.14));
+  --accent-2: hsl(calc(var(--accent-h) - 5), calc(var(--accent-s) * 1.19), calc(var(--accent-l) * 1.25));
+
+  --rgb-none: oklch(0 0 0);
+  --rgb-full: oklch(100 0 0);
+
+  --layer-background: 1;
+  --layer-sidebar: 10;
+  --layer-header: 20;
+  --layer-popup: 30;
+  --layer-modal: 50;
+  --layer-menu: 55;
+  --layer-tooltip:60;
+  --layer-notification: 70;
+  --layer-dragging: 80;
+  --layer-splash: 85;
+  --layer-native: 90;
+  --layer-titlebar: 95;
+
+  --input-shadow-1: inset 0 0.4px 0.5px 0.4px rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0, 0, 0, 0.16), 0 1px 1.6px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.22), 0 0 0 0 transparent;
+  --input-shadow-2: inset 0 0.5px 0.5px 0.5px rgba(255, 255, 255, 0.09), 0 2px 4px 0 rgba(0, 0, 0, .15), 0 1px 1.5px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .2), 0 0 0 0 transparent;
+  --shadow-shallow: 0 0.5px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.2);
+  --shadow-deep: 0 2px 6px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.3);
+
+  --radius: 0.625rem;
+
+  --custom-app-top-bar-height: 32px;
+}
+
+.dark {
+  --base-10: oklch(5% 0 0);
+  --base-20: oklch(10% 0 0);
+  --base-30: oklch(15% 0 0);
+  --base-40: oklch(20% 0 0);
+  --base-60: oklch(40% 0 0);
+  --base-70: oklch(50% 0 0);
+  --base-80: oklch(60% 0 0);
+  --base-90: oklch(70% 0 0);
+  --base-100: oklch(80% 0 0);
+
+  --primary-background: var(--base-10);
+  --secondary-background: var(--base-20);
+  --tertiary-background: var(--base-30);
+
+  --shadow-shallow: 0 0.5px 1px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.25), 0 6px 12px rgba(0, 0, 0, 0.3);
+  --shadow-deep: 0 2px 6px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+@layer base {
+  * {
+    @apply m-0 p-0 border-0 box-border;
+  }
+  body {
+    font-family: "Satoshi-Regular", sans-serif;
+    font-weight: 500;
+  }
+}
