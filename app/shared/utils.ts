@@ -112,9 +112,19 @@ export const cn = (...inputs: ClassValue[]) => {
 	return twMerge(clsx(inputs));
 };
 
-export const getEnvVar = (key: string) => {
-	if (process.env[key] === undefined) {
-		throw new Error(`Env variable ${key} is required`);
+// export const getEnvVar = (key: string) => {
+// 	if (process.env[key] === undefined) {
+// 		throw new Error(`Env variable ${key} is required`);
+// 	}
+// 	return process.env[key] || "";
+// };
+
+export const getEnvVar = (key: string): string => {
+	const value = import.meta.env[`VITE_${key}`];
+
+	if (value === undefined) {
+		throw new Error(`Env variable VITE_${key} is required`);
 	}
-	return process.env[key] || "";
+
+	return value;
 };
