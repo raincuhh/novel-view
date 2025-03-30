@@ -1,102 +1,117 @@
 @import "tailwindcss";
+@import url("./satoshi.css");
 
-@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:is(.dark *)); */
 
+@theme {
+	--color-*: initial;
 
-@theme inline {
+	/*bg*/
+	--color-primary: var(--color-base-00);
+	--color-primary-alt: var(--color-base-10);
+	--color-secondary: var(--color-base-20);
 
-  --z-background: var(--layer-background);
-  --z-sidebar: var(--layer-sidebar);
-  --z-header: var(--layer-header);
-  --z-popup: var(--layer-popup);
-  --z-modal: var(--layer-modal);
-  --z-menu: var(--layer-menu);
-  --z-tooltip: var(--layer-tooltip);
-  --z-notification: var(--layer-notification);
-  --z-dragging: var(--layer-dragging);
-  --z-splash: var(--layer-splash);
-  --z-native: var(--layer-native);
-  --z-titlebar: var(--layer-titlebar);
+	/*accent*/
+	--color-accent: var(--color-accent);
+	--color-accent-hover: var(--color-accent-1);
+	--color-accent-active: var(--color-accent-2);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+	/*text*/
+	--color-normal: var(--color-base-80);
+	--color-muted: var(--color-base-70);
+	--color-faint: var(--color-base-60);
+	--color-error: oklch(0.55 0.35 10);
+	--color-success: oklch(0.55 0.35 140);
+	--color-accent: var(--color-accent);
+
+	/*btns, inputs, etc.*/
+	--color-interactive-normal: var(--color-base-30);
+	--color-interactive-hover: var(--color-base-35);
+	--color-interactive-accent: var(--color-accent);
+	--color-interactive-accent-hover: var(--color-accent-hover);
+
+	--shadow-sm: 0 0.5px 1px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.25);
+	--shadow-md: 0 2px 6px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4);
+	--shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.5);
+
+	--color-border: var(--color-base-30);
+	--color-border-hover: var(--color-base-35);
+	--color-border-focus: var(--color-base-40);
+
+	--color-text-selection: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.25);
+	--color-bg-hover: rgba(var(--mono-rgb-100), 0.075);
+	--color-bg-active-hover: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15);
 }
 
 :root {
-  --base-10: oklch(100% 0 0);
-  --base-20: oklch(95% 0 0);
-  --base-30: oklch(90% 0 0);
-  --base-40: oklch(80% 0 0);
-  --base-50: oklch(70% 0 0);
-  --base-60: oklch(60% 0 0);
-  --base-70: oklch(50% 0 0);
-  --base-80: oklch(40% 0 0);
-  --base-90: oklch(30% 0 0);
-  --base-100: oklch(20% 0 0);
+	--color-base-00: oklch(0 0 0);
+	--color-base-05: oklch(0.05 0 270);
+	--color-base-10: oklch(0.1 0 270);
+	--color-base-20: oklch(0.2 0 270);
+	--color-base-25: oklch(0.25 0 270);
+	--color-base-30: oklch(0.3 0 270);
+	--color-base-35: oklch(0.35 0 270);
+	--color-base-40: oklch(0.4 0 270);
+	--color-base-50: oklch(0.5 0 270);
+	--color-base-60: oklch(0.6 0 270);
+	--color-base-70: oklch(0.7 0 270);
+	--color-base-80: oklch(0.8 0 270);
+	--color-base-100: oklch(0.9 0 270);
+	--color-base-200: oklch(0.97 0 270);
+	--color-base-255: oklch(1 0 270);
 
-  --accent-h: 259;
-  --accent-s: 51%;
-  --accent-l: 45%;
+	/* --accent-h: 300; hue
+	--accent-s: 0.35; saturation
+	--accent-l: 0.55; light */
+	--accent-l: 0.454;
+	--accent-c: 0.176;
+	--accent-h: 292.5;
 
-  --accent: var(--accent-h), var(--accent-s), var(--accent-l);
-  --accent-hsl: hsl(var(--accent));
+	--color-accent: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
 
-  --accent-1: hsl(calc(var(--accent-h) - 3), calc(var(--accent-s) * 1.07), calc(var(--accent-l) * 1.14));
-  --accent-2: hsl(calc(var(--accent-h) - 5), calc(var(--accent-s) * 1.19), calc(var(--accent-l) * 1.25));
+	--color-accent-1: oklch(calc(var(--accent-l) * 1.05) var(--accent-c) var(--accent-h));
+	--color-accent-2: oklch(calc(var(--accent-l) * 1.1) var(--accent-c) var(--accent-h));
 
-  --rgb-none: oklch(0 0 0);
-  --rgb-full: oklch(100 0 0);
+	--color-accent-hover: oklch(calc(var(--accent-l) * 1.1) var(--accent-c) var(--accent-h));
+	--color-accent-active: oklch(calc(var(--accent-l) * 0.95) var(--accent-c) var(--accent-h));
 
-  --layer-background: 1;
-  --layer-sidebar: 10;
-  --layer-header: 20;
-  --layer-popup: 30;
-  --layer-modal: 50;
-  --layer-menu: 55;
-  --layer-tooltip:60;
-  --layer-notification: 70;
-  --layer-dragging: 80;
-  --layer-splash: 85;
-  --layer-native: 90;
-  --layer-titlebar: 95;
+	--rgb-none: oklch(0 0 0);
+	--rgb-full: oklch(100 0 0);
 
-  --input-shadow-1: inset 0 0.4px 0.5px 0.4px rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0, 0, 0, 0.16), 0 1px 1.6px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.22), 0 0 0 0 transparent;
-  --input-shadow-2: inset 0 0.5px 0.5px 0.5px rgba(255, 255, 255, 0.09), 0 2px 4px 0 rgba(0, 0, 0, .15), 0 1px 1.5px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .2), 0 0 0 0 transparent;
-  --shadow-shallow: 0 0.5px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.2);
-  --shadow-deep: 0 2px 6px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.3);
-
-  --radius: 0.625rem;
-
-  --custom-app-top-bar-height: 32px;
+	--titlebar-height: 36px;
 }
 
 .dark {
-  --base-10: oklch(5% 0 0);
-  --base-20: oklch(10% 0 0);
-  --base-30: oklch(15% 0 0);
-  --base-40: oklch(20% 0 0);
-  --base-60: oklch(40% 0 0);
-  --base-70: oklch(50% 0 0);
-  --base-80: oklch(60% 0 0);
-  --base-90: oklch(70% 0 0);
-  --base-100: oklch(80% 0 0);
+	--color-base-00: oklch(0 0 0);
+	--color-base-05: oklch(0.05 0 270);
+	--color-base-10: oklch(0.1 0 270);
+	--color-base-20: oklch(0.2 0 270);
+	--color-base-25: oklch(0.25 0 270);
+	--color-base-30: oklch(0.3 0 270);
+	--color-base-35: oklch(0.35 0 270);
+	--color-base-40: oklch(0.4 0 270);
+	--color-base-50: oklch(0.5 0 270);
+	--color-base-60: oklch(0.6 0 270);
+	--color-base-70: oklch(0.7 0 270);
+	--color-base-100: oklch(0.9 0 270);
+	--color-base-200: oklch(0.97 0 270);
+	--color-base-255: oklch(1 0 270);
 
-  --primary-background: var(--base-10);
-  --secondary-background: var(--base-20);
-  --tertiary-background: var(--base-30);
+	--primary-background: var(--base-10);
+	--secondary-background: var(--base-20);
+	--tertiary-background: var(--base-30);
 
-  --shadow-shallow: 0 0.5px 1px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.25), 0 6px 12px rgba(0, 0, 0, 0.3);
-  --shadow-deep: 0 2px 6px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.5);
+	--shadow-shallow:
+		0 0.5px 1px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.25), 0 6px 12px rgba(0, 0, 0, 0.3);
+	--shadow-deep: 0 2px 6px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.5);
 }
 
 @layer base {
-  * {
-    @apply m-0 p-0 border-0 box-border;
-  }
-  body {
-    font-family: "Satoshi-Regular", sans-serif;
-    font-weight: 500;
-  }
+	* {
+		@apply m-0 p-0 border-0 box-border;
+	}
+	body {
+		font-family: "Satoshi-Regular", sans-serif;
+		font-weight: 500;
+	}
 }

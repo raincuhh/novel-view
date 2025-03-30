@@ -1,7 +1,0 @@
-{
-   "htmlWhitespaceSensitivity": "ignore",
-   "tabWidth": 3,
-   "tailwindConfig": "./tailwind.config.js",
-   "plugins": ["prettier-plugin-classnames"],
-   "endingPosition": "relative"
-}

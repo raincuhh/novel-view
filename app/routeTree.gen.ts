@@ -8,15 +8,25 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as readerReaderIndexImport } from './routes/(reader)/reader/index'
-import { Route as dashboardDashboardLibrariesImport } from './routes/(dashboard)/dashboard/libraries'
-import { Route as readerReaderBookIdChapterChapterIdIndexImport } from './routes/(reader)/reader/$bookId/chapter/$chapterId/index'
+import { Route as onboardingOnboardingRouteImport } from './routes/(onboarding)/_onboarding/route'
+import { Route as onboardingOnboardingOnboardingImport } from './routes/(onboarding)/_onboarding/onboarding'
+
+// Create Virtual Routes
+
+const onboardingImport = createFileRoute('/(onboarding)')()
 
 // Create/Update Routes
+
+const onboardingRoute = onboardingImport.update({
+  id: '/(onboarding)',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -24,24 +34,16 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const readerReaderIndexRoute = readerReaderIndexImport.update({
-  id: '/(reader)/reader/',
-  path: '/reader/',
-  getParentRoute: () => rootRoute,
+const onboardingOnboardingRouteRoute = onboardingOnboardingRouteImport.update({
+  id: '/_onboarding',
+  getParentRoute: () => onboardingRoute,
 } as any)
 
-const dashboardDashboardLibrariesRoute =
-  dashboardDashboardLibrariesImport.update({
-    id: '/(dashboard)/dashboard/libraries',
-    path: '/dashboard/libraries',
-    getParentRoute: () => rootRoute,
-  } as any)
-
-const readerReaderBookIdChapterChapterIdIndexRoute =
-  readerReaderBookIdChapterChapterIdIndexImport.update({
-    id: '/(reader)/reader/$bookId/chapter/$chapterId/',
-    path: '/reader/$bookId/chapter/$chapterId/',
-    getParentRoute: () => rootRoute,
+const onboardingOnboardingOnboardingRoute =
+  onboardingOnboardingOnboardingImport.update({
+    id: '/onboarding',
+    path: '/onboarding',
+    getParentRoute: () => onboardingOnboardingRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -55,89 +57,98 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/(dashboard)/dashboard/libraries': {
-      id: '/(dashboard)/dashboard/libraries'
-      path: '/dashboard/libraries'
-      fullPath: '/dashboard/libraries'
-      preLoaderRoute: typeof dashboardDashboardLibrariesImport
+    '/(onboarding)': {
+      id: '/(onboarding)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof onboardingImport
       parentRoute: typeof rootRoute
     }
-    '/(reader)/reader/': {
-      id: '/(reader)/reader/'
-      path: '/reader'
-      fullPath: '/reader'
-      preLoaderRoute: typeof readerReaderIndexImport
-      parentRoute: typeof rootRoute
+    '/(onboarding)/_onboarding': {
+      id: '/(onboarding)/_onboarding'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof onboardingOnboardingRouteImport
+      parentRoute: typeof onboardingRoute
     }
-    '/(reader)/reader/$bookId/chapter/$chapterId/': {
-      id: '/(reader)/reader/$bookId/chapter/$chapterId/'
-      path: '/reader/$bookId/chapter/$chapterId'
-      fullPath: '/reader/$bookId/chapter/$chapterId'
-      preLoaderRoute: typeof readerReaderBookIdChapterChapterIdIndexImport
-      parentRoute: typeof rootRoute
+    '/(onboarding)/_onboarding/onboarding': {
+      id: '/(onboarding)/_onboarding/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof onboardingOnboardingOnboardingImport
+      parentRoute: typeof onboardingOnboardingRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface onboardingOnboardingRouteRouteChildren {
+  onboardingOnboardingOnboardingRoute: typeof onboardingOnboardingOnboardingRoute
+}
+
+const onboardingOnboardingRouteRouteChildren: onboardingOnboardingRouteRouteChildren =
+  {
+    onboardingOnboardingOnboardingRoute: onboardingOnboardingOnboardingRoute,
+  }
+
+const onboardingOnboardingRouteRouteWithChildren =
+  onboardingOnboardingRouteRoute._addFileChildren(
+    onboardingOnboardingRouteRouteChildren,
+  )
+
+interface onboardingRouteChildren {
+  onboardingOnboardingRouteRoute: typeof onboardingOnboardingRouteRouteWithChildren
+}
+
+const onboardingRouteChildren: onboardingRouteChildren = {
+  onboardingOnboardingRouteRoute: onboardingOnboardingRouteRouteWithChildren,
+}
+
+const onboardingRouteWithChildren = onboardingRoute._addFileChildren(
+  onboardingRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/dashboard/libraries': typeof dashboardDashboardLibrariesRoute
-  '/reader': typeof readerReaderIndexRoute
-  '/reader/$bookId/chapter/$chapterId': typeof readerReaderBookIdChapterChapterIdIndexRoute
+  '/': typeof onboardingOnboardingRouteRouteWithChildren
+  '/onboarding': typeof onboardingOnboardingOnboardingRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/dashboard/libraries': typeof dashboardDashboardLibrariesRoute
-  '/reader': typeof readerReaderIndexRoute
-  '/reader/$bookId/chapter/$chapterId': typeof readerReaderBookIdChapterChapterIdIndexRoute
+  '/': typeof onboardingOnboardingRouteRouteWithChildren
+  '/onboarding': typeof onboardingOnboardingOnboardingRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/(dashboard)/dashboard/libraries': typeof dashboardDashboardLibrariesRoute
-  '/(reader)/reader/': typeof readerReaderIndexRoute
-  '/(reader)/reader/$bookId/chapter/$chapterId/': typeof readerReaderBookIdChapterChapterIdIndexRoute
+  '/(onboarding)': typeof onboardingRouteWithChildren
+  '/(onboarding)/_onboarding': typeof onboardingOnboardingRouteRouteWithChildren
+  '/(onboarding)/_onboarding/onboarding': typeof onboardingOnboardingOnboardingRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/dashboard/libraries'
-    | '/reader'
-    | '/reader/$bookId/chapter/$chapterId'
+  fullPaths: '/' | '/onboarding'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/dashboard/libraries'
-    | '/reader'
-    | '/reader/$bookId/chapter/$chapterId'
+  to: '/' | '/onboarding'
   id:
     | '__root__'
     | '/'
-    | '/(dashboard)/dashboard/libraries'
-    | '/(reader)/reader/'
-    | '/(reader)/reader/$bookId/chapter/$chapterId/'
+    | '/(onboarding)'
+    | '/(onboarding)/_onboarding'
+    | '/(onboarding)/_onboarding/onboarding'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  dashboardDashboardLibrariesRoute: typeof dashboardDashboardLibrariesRoute
-  readerReaderIndexRoute: typeof readerReaderIndexRoute
-  readerReaderBookIdChapterChapterIdIndexRoute: typeof readerReaderBookIdChapterChapterIdIndexRoute
+  onboardingRoute: typeof onboardingRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  dashboardDashboardLibrariesRoute: dashboardDashboardLibrariesRoute,
-  readerReaderIndexRoute: readerReaderIndexRoute,
-  readerReaderBookIdChapterChapterIdIndexRoute:
-    readerReaderBookIdChapterChapterIdIndexRoute,
+  onboardingRoute: onboardingRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -151,22 +162,28 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/(dashboard)/dashboard/libraries",
-        "/(reader)/reader/",
-        "/(reader)/reader/$bookId/chapter/$chapterId/"
+        "/(onboarding)"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/(dashboard)/dashboard/libraries": {
-      "filePath": "(dashboard)/dashboard/libraries.tsx"
+    "/(onboarding)": {
+      "filePath": "(onboarding)/_onboarding",
+      "children": [
+        "/(onboarding)/_onboarding"
+      ]
     },
-    "/(reader)/reader/": {
-      "filePath": "(reader)/reader/index.tsx"
+    "/(onboarding)/_onboarding": {
+      "filePath": "(onboarding)/_onboarding/route.tsx",
+      "parent": "/(onboarding)",
+      "children": [
+        "/(onboarding)/_onboarding/onboarding"
+      ]
     },
-    "/(reader)/reader/$bookId/chapter/$chapterId/": {
-      "filePath": "(reader)/reader/$bookId/chapter/$chapterId/index.tsx"
+    "/(onboarding)/_onboarding/onboarding": {
+      "filePath": "(onboarding)/_onboarding/onboarding.tsx",
+      "parent": "/(onboarding)/_onboarding"
     }
   }
 }

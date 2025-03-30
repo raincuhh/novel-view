@@ -1,6 +1,4 @@
-export const getEnvVar = (key: string) => {
-	if (process.env[key] === undefined) {
-		throw new Error(`Env variable ${key} is required`);
-	}
-	return process.env[key] || "";
-};
+import { getEnvVar } from "./utils";
+
+export const SUPABASE_URL: string = getEnvVar("SUPABASE_URL");
+export const SUPABASE_PUBLIC_ANON_KEY: string = getEnvVar("SUPABASE_PUBLIC_ANON_KEY");
