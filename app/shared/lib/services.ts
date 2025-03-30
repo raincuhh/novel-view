@@ -1,8 +1,8 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import { SUPABASE_URL, SUPABASE_PUBLIC_ANON_KEY } from "../env";
+import { env } from "./env";
 
-if (!SUPABASE_URL || !SUPABASE_PUBLIC_ANON_KEY) {
+if (!env.SUPABASE_URL || !env.SUPABASE_PUBLIC_ANON_KEY) {
 	throw new Error("Supabase URL or Public Key is missing");
 }
 
-export const supabase: SupabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLIC_ANON_KEY);
+export const supabase: SupabaseClient = createClient(env.SUPABASE_URL, env.SUPABASE_PUBLIC_ANON_KEY);

@@ -1,0 +1,2 @@
+intial onboarding flow:
+welcomeScreen -> goes to (sign up for free) and (log in) -> log in shows (continue with email) -> (shows a email or username and password form)... now if you choose sign up for free -> multi form viewtransition -> "whats your email address" -> "create a password" -> "whats your date of birth" -> "whats ur gender (female, male, non binary, other, prefer not to say) -> then finale screen shows "whats your name", then theres some terms of use and privacy policy showing.

@@ -7,16 +7,16 @@ import { useAuthStore } from "@/features/auth/authStore";
 type AppProviderProps = PropsWithChildren<{}>;
 
 const AppProvider = ({ children }: AppProviderProps) => {
-	const initializeAuth = useAuthStore((state) => state.initAuth);
+	const initAuth = useAuthStore((state) => state.initAuth);
 
 	const AppWithProviders: React.ComponentType<PropsWithChildren> = pipe(withProvider(ReactQueryProvider))(
 		(props: PropsWithChildren<{}>) => <>{props.children}</>
 	);
 
 	useEffect(() => {
-		const cleanup = initializeAuth();
+		const cleanup = initAuth();
 		return cleanup;
-	}, [initializeAuth]);
+	}, [initAuth]);
 
 	return <AppWithProviders>{children}</AppWithProviders>;
 };

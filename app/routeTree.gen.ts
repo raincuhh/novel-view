@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as UnauthorizedImport } from './routes/unauthorized'
 import { Route as IndexImport } from './routes/index'
 import { Route as onboardingOnboardingRouteImport } from './routes/(onboarding)/_onboarding/route'
 import { Route as onboardingOnboardingOnboardingImport } from './routes/(onboarding)/_onboarding/onboarding'
@@ -25,6 +26,12 @@ const onboardingImport = createFileRoute('/(onboarding)')()
 
 const onboardingRoute = onboardingImport.update({
   id: '/(onboarding)',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UnauthorizedRoute = UnauthorizedImport.update({
+  id: '/unauthorized',
+  path: '/unauthorized',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -55,6 +62,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/unauthorized': {
+      id: '/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof UnauthorizedImport
       parentRoute: typeof rootRoute
     }
     '/(onboarding)': {
@@ -111,17 +125,20 @@ const onboardingRouteWithChildren = onboardingRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof onboardingOnboardingRouteRouteWithChildren
+  '/unauthorized': typeof UnauthorizedRoute
   '/onboarding': typeof onboardingOnboardingOnboardingRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof onboardingOnboardingRouteRouteWithChildren
+  '/unauthorized': typeof UnauthorizedRoute
   '/onboarding': typeof onboardingOnboardingOnboardingRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/(onboarding)': typeof onboardingRouteWithChildren
   '/(onboarding)/_onboarding': typeof onboardingOnboardingRouteRouteWithChildren
   '/(onboarding)/_onboarding/onboarding': typeof onboardingOnboardingOnboardingRoute
@@ -129,12 +146,13 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/onboarding'
+  fullPaths: '/' | '/unauthorized' | '/onboarding'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/onboarding'
+  to: '/' | '/unauthorized' | '/onboarding'
   id:
     | '__root__'
     | '/'
+    | '/unauthorized'
     | '/(onboarding)'
     | '/(onboarding)/_onboarding'
     | '/(onboarding)/_onboarding/onboarding'
@@ -143,11 +161,13 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  UnauthorizedRoute: typeof UnauthorizedRoute
   onboardingRoute: typeof onboardingRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  UnauthorizedRoute: UnauthorizedRoute,
   onboardingRoute: onboardingRouteWithChildren,
 }
 
@@ -162,11 +182,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/unauthorized",
         "/(onboarding)"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/unauthorized": {
+      "filePath": "unauthorized.tsx"
     },
     "/(onboarding)": {
       "filePath": "(onboarding)/_onboarding",

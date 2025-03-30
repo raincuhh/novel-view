@@ -6,6 +6,7 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import "../styles/global.css";
 import NotFound from "@/pages/notFound/components/ui/notFound";
 import AppProvider from "@/shared/providers/appProvider";
+import { Suspense } from "react";
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -28,6 +29,11 @@ export const Route = createRootRoute({
 	// },
 	notFoundComponent: () => <NotFound />,
 	component: RootComponent,
+	loader: async () => {
+		//testing loading
+		// await new Promise((resolve) => setTimeout(resolve, 1000 * 2));
+		// return { message: "Welcome to NovelView!" };
+	},
 });
 
 function RootComponent() {

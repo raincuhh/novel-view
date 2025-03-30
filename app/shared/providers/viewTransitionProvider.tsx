@@ -4,16 +4,26 @@ type ViewTransitionContextType<T> = {
 	currentView: T;
 	isAnimating: boolean;
 	direction: number;
-	navigate: (targetView: T) => void;
+	// navigate: (targetView: T) => void;
+	viewSwitcherNavigate: (targetView: T) => void;
 };
 
 const ViewTransitionContext = createContext<ViewTransitionContextType<any> | null>(null);
+
+type ViewTransitionState<T> = {
+	currentView: T[keyof T];
+	isAnimating: boolean;
+	direction: number;
+};
 
 type Action<T> =
 	| { type: "CHANGE_VIEW"; payload: { view: T[keyof T]; direction: number } }
 	| { type: "END_ANIMATION" };
 
-const viewTransitionReducer = <T,>(state: any, action: Action<T>) => {
+const viewTransitionReducer = <T,>(
+	state: ViewTransitionState<T>,
+	action: Action<T>
+): ViewTransitionState<T> => {
 	switch (action.type) {
 		case "CHANGE_VIEW":
 			return {
@@ -48,30 +58,25 @@ export const ViewTransitionProvider = <T extends { [key: string]: string }>({
 		direction: 0,
 	});
 
-	const getDirection = (targetView: T[keyof T]) => {
+	const getDirection = (targetView: T[keyof T]): number => {
 		const views = Object.values(type);
 		return views.indexOf(targetView) > views.indexOf(state.currentView) ? 1 : -1;
 	};
 
-	const changeView = (newPage: T[keyof T], newDirection: number) => {
+	const viewSwitcherNavigate = (targetView: T[keyof T]) => {
 		if (state.isAnimating) return;
-		dispatch({ type: "CHANGE_VIEW", payload: { view: newPage, direction: newDirection } });
+		dispatch({ type: "CHANGE_VIEW", payload: { view: targetView, direction: getDirection(targetView) } });
 		setTimeout(() => dispatch({ type: "END_ANIMATION" }), duration);
 	};
 
-	const viewSwitcherNavigate = (targetView: T[keyof T]) => {
-		if (state.isAnimating) return;
-		changeView(targetView, getDirection(targetView));
-	};
-
 	return (
-		<ViewTransitionContext.Provider value={{ ...state, changeView, getDirection, viewSwitcherNavigate }}>
+		<ViewTransitionContext.Provider value={{ ...state, viewSwitcherNavigate }}>
 			{children}
 		</ViewTransitionContext.Provider>
 	);
 };
 
-export const useViewTransition = <T,>() => {
+export const useViewTransition = <T,>(): ViewTransitionContextType<T> => {
 	const context = useContext(ViewTransitionContext);
 	if (!context) throw new Error("useViewTransition must be used within a ViewTransitionProvider");
 	return context as ViewTransitionContextType<T>;

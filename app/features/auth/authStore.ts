@@ -1,7 +1,8 @@
-import { User, UserRoles } from "@/shared/types";
+import { User } from "@/shared/lib/types";
 import { Session } from "@supabase/supabase-js";
 import { create } from "zustand";
 import { supabase } from "@/shared/lib/services";
+import { logoutUser, registerUser, loginUser } from "./authService";
 
 type AuthState = {
 	user: User | null;
@@ -26,75 +27,25 @@ export const useAuthStore = create<AuthState>((set) => ({
 	setLoading: (loading) => set({ loading }),
 
 	register: async (email, password, username) => {
-		try {
-			const { data, error } = await supabase.auth.signUp({ email, password });
-
-			if (error) throw error;
-
-			if (data.user) {
-				await supabase.from("profiles").insert({
-					user_id: data.user.id,
-					username: username,
-					role: UserRoles.user,
-				});
-
-				const user: User = {
-					...data.user,
-					user_id: data.user.id,
-					username: username,
-					role: UserRoles.user,
-				};
-
-				set({ user });
-				return user;
-			}
-
-			return null;
-		} catch (err: any) {
-			console.error("Error registering user:", err);
-			return null;
-		}
+		const user = await registerUser(email, password, username);
+		set({ user });
+		return user;
 	},
 
 	login: async (email, password) => {
-		try {
-			const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-			if (error) throw error;
-
-			if (data.session) {
-				const { data: profile, error: profileError } = await supabase
-					.from("profiles")
-					.select("*")
-					.eq("user_id", data.session.user.id)
-					.single();
-
-				if (profileError) {
-					console.error("Error fetching user profile:", profileError);
-					throw profileError;
-				}
-
-				set({
-					session: data.session,
-					user: {
-						...data.session.user,
-						...profile,
-					},
-				});
-			}
-		} catch (err: any) {
-			console.error("Error during login:", err);
-			throw err;
+		const authData = await loginUser(email, password);
+		if (authData) {
+			set({ session: authData.session, user: authData.user });
 		}
 	},
 
 	logout: async () => {
-		await supabase.auth.signOut();
+		await logoutUser();
 		set({ user: null, session: null });
 	},
 
 	initAuth: () => {
-		console.log("initializing auth!");
+		console.log("initializing auth...");
 		const fetchUser = async (session: Session | null) => {
 			set({ loading: true });
 
