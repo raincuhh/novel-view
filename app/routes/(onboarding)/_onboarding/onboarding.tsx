@@ -61,7 +61,9 @@ function RouteComponent() {
 		<div className="py-6 sm:mx-auto sm:w-full sm:max-w-sm">
 			<div className="text-center mb-4">top level header</div>
 			<ViewTransitionProvider initialView={OnboardingViews.welcome} duration={300} type={OnboardingViews}>
-				<OnboardingContent />
+				<div className="flex-1 overflow-hidden w-full relative">
+					<OnboardingContent />
+				</div>
 			</ViewTransitionProvider>
 		</div>
 	);
