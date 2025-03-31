@@ -11,7 +11,7 @@ const buttonVariants = cva(
 				accent: "bg-interactive-accent hover:bg-interactive-accent-hover",
 				outline: "border border-border hover:border-border-hover hover:bg-interactive-normal/70",
 				link: "text-normal underline-offset-4 hover:underline",
-				ghost: "",
+				ghost: "bg-transparent hover:bg-interactive-normal/70",
 				destructive: "",
 				warning: "",
 				success: "",
@@ -19,7 +19,7 @@ const buttonVariants = cva(
 			size: {
 				default: "px-4 py-2",
 				sm: "px-3 text-xs",
-				lg: "px-4 py-2",
+				lg: "px-6 py-3",
 				icon: "h-9 w-9",
 			},
 			rounded: {

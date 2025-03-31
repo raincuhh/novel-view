@@ -2,7 +2,7 @@ import { motion, AnimatePresence, Variants, VariantLabels } from "framer-motion"
 import { useViewTransition, ViewTransitionProvider } from "@/shared/providers/viewTransitionProvider";
 import { ElementType } from "react";
 
-export const variants = {
+export const defaultVariants = {
 	enter: (direction: number) => ({
 		x: direction > 0 ? "120%" : "-120%",
 		opacity: 0,
@@ -16,29 +16,34 @@ export const variants = {
 
 type AnimatedTransitionContentProps<T extends string | number | symbol> = {
 	viewComponents: Record<T, ElementType>;
-	initial?: T;
-	animate?: T;
+	initial?: VariantLabels;
+	animate?: VariantLabels;
 	variants?: Variants;
 };
 
 export const AnimatedTransitionContent = <T extends string | number | symbol>({
 	viewComponents,
-	initial = "center" as T,
-	animate = "center" as T,
+	initial = "enter",
+	animate = "center",
 	variants,
 }: AnimatedTransitionContentProps<T>) => {
 	const { currentView, direction } = useViewTransition<T>();
 	const Comp = (viewComponents[currentView as keyof typeof viewComponents] as ElementType) || null;
+
+	if (!Comp) {
+		console.error(`No component found for view: ${String(currentView)}`);
+		return <div className="text-center text-red-500">Error: View not found</div>;
+	}
 
 	return (
 		<AnimatePresence mode="popLayout" custom={direction}>
 			<motion.div
 				key={currentView as string}
 				custom={direction}
-				initial={initial as VariantLabels}
-				animate={animate as VariantLabels}
+				initial={initial}
+				animate={animate}
 				exit="exit"
-				variants={variants}
+				variants={variants || defaultVariants}
 				transition={{ duration: 0.25 }}
 				className="inset-0 w-full h-full overflow-hidden relative"
 			>

@@ -1,4 +1,4 @@
-import React, { useReducer, createContext, useContext } from "react";
+import React, { useReducer, createContext, useContext, useEffect } from "react";
 
 type ViewTransitionContextType<T> = {
 	currentView: T;
@@ -58,6 +58,27 @@ export const ViewTransitionProvider = <T extends { [key: string]: string }>({
 		direction: 0,
 	});
 
+	// useEffect(() => {
+	// 	window.history.replaceState({ view: initialView }, "", `#${initialView}`);
+	// }, [initialView]);
+
+	// useEffect(() => {
+	// 	const handlePopState = (event: PopStateEvent) => {
+	// 		const state = event.state;
+	// 		if (state?.view) {
+	// 			dispatch({
+	// 				type: "CHANGE_VIEW",
+	// 				payload: { view: state.view, direction: getDirection(state.view) },
+	// 			});
+	// 		}
+	// 	};
+
+	// 	window.addEventListener("popstate", handlePopState);
+	// 	return () => {
+	// 		window.removeEventListener("popstate", handlePopState);
+	// 	};
+	// }, []);
+
 	const getDirection = (targetView: T[keyof T]): number => {
 		const views = Object.values(type);
 		return views.indexOf(targetView) > views.indexOf(state.currentView) ? 1 : -1;
@@ -65,6 +86,8 @@ export const ViewTransitionProvider = <T extends { [key: string]: string }>({
 
 	const viewSwitcherNavigate = (targetView: T[keyof T]) => {
 		if (state.isAnimating) return;
+		console.info("Navigating to:", targetView);
+		// window.history.pushState({ view: targetView }, "", `#${targetView}`);
 		dispatch({ type: "CHANGE_VIEW", payload: { view: targetView, direction: getDirection(targetView) } });
 		setTimeout(() => dispatch({ type: "END_ANIMATION" }), duration);
 	};

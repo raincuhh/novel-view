@@ -1,19 +1,40 @@
-export enum OnboardingViews {
-	welcome = "welcome",
-	registerOnboardingFlow = "registerOnboardingFlow",
-	loginOnboardingFlow = "loginOnboardingFlow",
-}
+// export enum OnboardingViews {
+// 	welcome = "welcome",
+// 	registerOnboardingFlow = "registerOnboardingFlow",
+// 	loginOnboardingFlow = "loginOnboardingFlow",
+// }
 
-export enum OnboardingLoginViews {
+// export enum OnboardingLoginViews {
+// 	loginOptions = "loginOptions",
+// 	loginForm = "loginForm",
+// 	resetPasswordForm = "resetPasswordForm",
+// 	forgotPasswordForm = "forgotPasswordForm",
+// 	verifyEmailForm = "verifyEmailForm",
+// }
+
+// export enum OnboardingRegisterViews {
+// 	registerOptions = "registerOptions",
+// 	registerEmailForm = "registerEmailForm",
+// 	registerPasswordForm = "registerPasswordForm",
+// 	registerGenderForm = "registerGenderForm",
+// 	registerDOBForm = "registerDOBForm",
+// 	registerUsernameForm = "registerUsernameForm",
+// 	registerFinish = "registerFinish",
+// }
+
+export enum CombinedOnboardingViews {
+	// top-level flow.
+	welcome = "welcome",
 	loginOptions = "loginOptions",
+	registerOptions = "registerOptions",
+
+	// login flow
 	loginForm = "loginForm",
 	resetPasswordForm = "resetPasswordForm",
 	forgotPasswordForm = "forgotPasswordForm",
 	verifyEmailForm = "verifyEmailForm",
-}
 
-export enum OnboardingRegisterViews {
-	registerOptions = "registerOptions",
+	// register flow
 	registerEmailForm = "registerEmailForm",
 	registerPasswordForm = "registerPasswordForm",
 	registerGenderForm = "registerGenderForm",
