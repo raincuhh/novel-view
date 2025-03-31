@@ -8,7 +8,7 @@ function RouteComponent() {
 	return (
 		<div className="h-screen">
 			<div className="flex min-h-full flex-col justify-center">
-				<div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
+				<div className="flex min-h-full flex-col justify-center">
 					<Outlet />
 				</div>
 			</div>

@@ -1,56 +1,17 @@
-import { useViewTransition, ViewTransitionProvider } from "@/shared/providers/viewTransitionProvider";
+import React, { ElementType } from "react";
+import { ViewTransitionProvider } from "@/shared/providers/viewTransitionProvider";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { OnboardingViews } from "@/pages/onboarding/types";
 import Welcome from "@/pages/onboarding/components/ui/welcome";
-import Login from "@/features/auth/components/ui/login";
-import Register from "@/features/auth/components/ui/register";
-import { motion, AnimatePresence } from "framer-motion";
+import loginOnboardingFlow from "@/pages/onboarding/components/ui/loginOnboardingFlow";
+import { AnimatedTransitionContent } from "@/shared/components/utils/AnimatedTransitionContent";
+import RegisterOnboardingFlow from "@/pages/onboarding/components/ui/registerOnboardingFlow";
 
-const viewComponents: Record<OnboardingViews, React.ElementType> = {
+const viewComponents: Record<OnboardingViews, ElementType> = {
 	[OnboardingViews.welcome]: Welcome,
-	[OnboardingViews.register]: Register,
-	[OnboardingViews.login]: Login,
+	[OnboardingViews.registerOnboardingFlow]: RegisterOnboardingFlow,
+	[OnboardingViews.loginOnboardingFlow]: loginOnboardingFlow,
 };
-
-const variants = {
-	enter: (direction: number) => ({
-		x: direction > 0 ? "120%" : "-120%",
-		opacity: 0,
-	}),
-	center: { x: 0, opacity: 1 },
-	exit: (direction: number) => ({
-		x: direction < 0 ? "120%" : "-120%",
-		opacity: 0,
-	}),
-};
-
-const OnboardingContent = () => {
-	const { currentView, direction } = useViewTransition<OnboardingViews>();
-	const Component = viewComponents[currentView] || null;
-
-	return (
-		<AnimatePresence mode="popLayout" custom={direction}>
-			<motion.div
-				key={currentView}
-				custom={direction}
-				initial="enter"
-				animate="center"
-				exit="exit"
-				variants={variants}
-				transition={{ duration: 0.3 }}
-				className="inset-0 w-full h-full overflow-hidden"
-			>
-				<Component />
-			</motion.div>
-		</AnimatePresence>
-	);
-};
-
-// const OnboardingContent = () => {
-// 	const { currentView } = useViewTransition<OnboardingViews>();
-// 	const Component = viewComponents[currentView] || null;
-// 	return Component ? <Component /> : null;
-// };
 
 export const Route = createFileRoute("/(onboarding)/_onboarding/onboarding")({
 	component: RouteComponent,
@@ -58,13 +19,18 @@ export const Route = createFileRoute("/(onboarding)/_onboarding/onboarding")({
 
 function RouteComponent() {
 	return (
-		<div className="py-6 sm:mx-auto sm:w-full sm:max-w-sm">
-			<div className="text-center mb-4">top level header</div>
-			<ViewTransitionProvider initialView={OnboardingViews.welcome} duration={300} type={OnboardingViews}>
-				<div className="flex-1 overflow-hidden w-full relative">
-					<OnboardingContent />
-				</div>
-			</ViewTransitionProvider>
+		<div className="absolute h-screen w-screen flex flex-col">
+			<div className="py-6 px-6 lg:px-8 sm:mx-auto sm:w-full sm:max-w-sm h-full">
+				<ViewTransitionProvider
+					initialView={OnboardingViews.welcome}
+					duration={250}
+					type={OnboardingViews}
+				>
+					<div className="flex-1 overflow-hidden w-full h-full relative">
+						<AnimatedTransitionContent<OnboardingViews> viewComponents={viewComponents} />
+					</div>
+				</ViewTransitionProvider>
+			</div>
 		</div>
 	);
 }

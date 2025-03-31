@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function SignUpEmail() {
+export default function RegisterEmailForm() {
 	return <div>SignUpEmail</div>;
 }

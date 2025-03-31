@@ -16,9 +16,7 @@ export const sqlTimestampToDate = (timestamp: string): Date | null => {
 
 export const sqlTimestampToDateVTwo = (timestamp: string): Date | null => {
 	if (!timestamp || typeof timestamp !== "string") return null;
-
 	const date = new Date(timestamp);
-
 	return isNaN(date.getTime()) ? null : date;
 };
 

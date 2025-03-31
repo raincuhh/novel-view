@@ -8,172 +8,165 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as UnauthorizedImport } from './routes/unauthorized'
-import { Route as IndexImport } from './routes/index'
-import { Route as onboardingOnboardingRouteImport } from './routes/(onboarding)/_onboarding/route'
-import { Route as onboardingOnboardingOnboardingImport } from './routes/(onboarding)/_onboarding/onboarding'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as UnauthorizedImport } from "./routes/unauthorized";
+import { Route as IndexImport } from "./routes/index";
+import { Route as onboardingOnboardingRouteImport } from "./routes/(onboarding)/_onboarding/route";
+import { Route as onboardingOnboardingOnboardingImport } from "./routes/(onboarding)/_onboarding/onboarding";
 
 // Create Virtual Routes
 
-const onboardingImport = createFileRoute('/(onboarding)')()
+const onboardingImport = createFileRoute("/(onboarding)")();
 
 // Create/Update Routes
 
 const onboardingRoute = onboardingImport.update({
-  id: '/(onboarding)',
-  getParentRoute: () => rootRoute,
-} as any)
+	id: "/(onboarding)",
+	getParentRoute: () => rootRoute,
+} as any);
 
 const UnauthorizedRoute = UnauthorizedImport.update({
-  id: '/unauthorized',
-  path: '/unauthorized',
-  getParentRoute: () => rootRoute,
-} as any)
+	id: "/unauthorized",
+	path: "/unauthorized",
+	getParentRoute: () => rootRoute,
+} as any);
 
 const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
+	id: "/",
+	path: "/",
+	getParentRoute: () => rootRoute,
+} as any);
 
 const onboardingOnboardingRouteRoute = onboardingOnboardingRouteImport.update({
-  id: '/_onboarding',
-  getParentRoute: () => onboardingRoute,
-} as any)
+	id: "/_onboarding",
+	getParentRoute: () => onboardingRoute,
+} as any);
 
-const onboardingOnboardingOnboardingRoute =
-  onboardingOnboardingOnboardingImport.update({
-    id: '/onboarding',
-    path: '/onboarding',
-    getParentRoute: () => onboardingOnboardingRouteRoute,
-  } as any)
+const onboardingOnboardingOnboardingRoute = onboardingOnboardingOnboardingImport.update({
+	id: "/onboarding",
+	path: "/onboarding",
+	getParentRoute: () => onboardingOnboardingRouteRoute,
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/unauthorized': {
-      id: '/unauthorized'
-      path: '/unauthorized'
-      fullPath: '/unauthorized'
-      preLoaderRoute: typeof UnauthorizedImport
-      parentRoute: typeof rootRoute
-    }
-    '/(onboarding)': {
-      id: '/(onboarding)'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof onboardingImport
-      parentRoute: typeof rootRoute
-    }
-    '/(onboarding)/_onboarding': {
-      id: '/(onboarding)/_onboarding'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof onboardingOnboardingRouteImport
-      parentRoute: typeof onboardingRoute
-    }
-    '/(onboarding)/_onboarding/onboarding': {
-      id: '/(onboarding)/_onboarding/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof onboardingOnboardingOnboardingImport
-      parentRoute: typeof onboardingOnboardingRouteImport
-    }
-  }
+declare module "@tanstack/react-router" {
+	interface FileRoutesByPath {
+		"/": {
+			id: "/";
+			path: "/";
+			fullPath: "/";
+			preLoaderRoute: typeof IndexImport;
+			parentRoute: typeof rootRoute;
+		};
+		"/unauthorized": {
+			id: "/unauthorized";
+			path: "/unauthorized";
+			fullPath: "/unauthorized";
+			preLoaderRoute: typeof UnauthorizedImport;
+			parentRoute: typeof rootRoute;
+		};
+		"/(onboarding)": {
+			id: "/(onboarding)";
+			path: "/";
+			fullPath: "/";
+			preLoaderRoute: typeof onboardingImport;
+			parentRoute: typeof rootRoute;
+		};
+		"/(onboarding)/_onboarding": {
+			id: "/(onboarding)/_onboarding";
+			path: "/";
+			fullPath: "/";
+			preLoaderRoute: typeof onboardingOnboardingRouteImport;
+			parentRoute: typeof onboardingRoute;
+		};
+		"/(onboarding)/_onboarding/onboarding": {
+			id: "/(onboarding)/_onboarding/onboarding";
+			path: "/onboarding";
+			fullPath: "/onboarding";
+			preLoaderRoute: typeof onboardingOnboardingOnboardingImport;
+			parentRoute: typeof onboardingOnboardingRouteImport;
+		};
+	}
 }
 
 // Create and export the route tree
 
 interface onboardingOnboardingRouteRouteChildren {
-  onboardingOnboardingOnboardingRoute: typeof onboardingOnboardingOnboardingRoute
+	onboardingOnboardingOnboardingRoute: typeof onboardingOnboardingOnboardingRoute;
 }
 
-const onboardingOnboardingRouteRouteChildren: onboardingOnboardingRouteRouteChildren =
-  {
-    onboardingOnboardingOnboardingRoute: onboardingOnboardingOnboardingRoute,
-  }
+const onboardingOnboardingRouteRouteChildren: onboardingOnboardingRouteRouteChildren = {
+	onboardingOnboardingOnboardingRoute: onboardingOnboardingOnboardingRoute,
+};
 
-const onboardingOnboardingRouteRouteWithChildren =
-  onboardingOnboardingRouteRoute._addFileChildren(
-    onboardingOnboardingRouteRouteChildren,
-  )
+const onboardingOnboardingRouteRouteWithChildren = onboardingOnboardingRouteRoute._addFileChildren(
+	onboardingOnboardingRouteRouteChildren
+);
 
 interface onboardingRouteChildren {
-  onboardingOnboardingRouteRoute: typeof onboardingOnboardingRouteRouteWithChildren
+	onboardingOnboardingRouteRoute: typeof onboardingOnboardingRouteRouteWithChildren;
 }
 
 const onboardingRouteChildren: onboardingRouteChildren = {
-  onboardingOnboardingRouteRoute: onboardingOnboardingRouteRouteWithChildren,
-}
+	onboardingOnboardingRouteRoute: onboardingOnboardingRouteRouteWithChildren,
+};
 
-const onboardingRouteWithChildren = onboardingRoute._addFileChildren(
-  onboardingRouteChildren,
-)
+const onboardingRouteWithChildren = onboardingRoute._addFileChildren(onboardingRouteChildren);
 
 export interface FileRoutesByFullPath {
-  '/': typeof onboardingOnboardingRouteRouteWithChildren
-  '/unauthorized': typeof UnauthorizedRoute
-  '/onboarding': typeof onboardingOnboardingOnboardingRoute
+	"/": typeof onboardingOnboardingRouteRouteWithChildren;
+	"/unauthorized": typeof UnauthorizedRoute;
+	"/onboarding": typeof onboardingOnboardingOnboardingRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof onboardingOnboardingRouteRouteWithChildren
-  '/unauthorized': typeof UnauthorizedRoute
-  '/onboarding': typeof onboardingOnboardingOnboardingRoute
+	"/": typeof onboardingOnboardingRouteRouteWithChildren;
+	"/unauthorized": typeof UnauthorizedRoute;
+	"/onboarding": typeof onboardingOnboardingOnboardingRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/unauthorized': typeof UnauthorizedRoute
-  '/(onboarding)': typeof onboardingRouteWithChildren
-  '/(onboarding)/_onboarding': typeof onboardingOnboardingRouteRouteWithChildren
-  '/(onboarding)/_onboarding/onboarding': typeof onboardingOnboardingOnboardingRoute
+	__root__: typeof rootRoute;
+	"/": typeof IndexRoute;
+	"/unauthorized": typeof UnauthorizedRoute;
+	"/(onboarding)": typeof onboardingRouteWithChildren;
+	"/(onboarding)/_onboarding": typeof onboardingOnboardingRouteRouteWithChildren;
+	"/(onboarding)/_onboarding/onboarding": typeof onboardingOnboardingOnboardingRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/unauthorized' | '/onboarding'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/unauthorized' | '/onboarding'
-  id:
-    | '__root__'
-    | '/'
-    | '/unauthorized'
-    | '/(onboarding)'
-    | '/(onboarding)/_onboarding'
-    | '/(onboarding)/_onboarding/onboarding'
-  fileRoutesById: FileRoutesById
+	fileRoutesByFullPath: FileRoutesByFullPath;
+	fullPaths: "/" | "/unauthorized" | "/onboarding";
+	fileRoutesByTo: FileRoutesByTo;
+	to: "/" | "/unauthorized" | "/onboarding";
+	id:
+		| "__root__"
+		| "/"
+		| "/unauthorized"
+		| "/(onboarding)"
+		| "/(onboarding)/_onboarding"
+		| "/(onboarding)/_onboarding/onboarding";
+	fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  UnauthorizedRoute: typeof UnauthorizedRoute
-  onboardingRoute: typeof onboardingRouteWithChildren
+	IndexRoute: typeof IndexRoute;
+	UnauthorizedRoute: typeof UnauthorizedRoute;
+	onboardingRoute: typeof onboardingRouteWithChildren;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  UnauthorizedRoute: UnauthorizedRoute,
-  onboardingRoute: onboardingRouteWithChildren,
-}
+	IndexRoute: IndexRoute,
+	UnauthorizedRoute: UnauthorizedRoute,
+	onboardingRoute: onboardingRouteWithChildren,
+};
 
-export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {

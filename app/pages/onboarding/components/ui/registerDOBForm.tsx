@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function SignUpDOB() {
+export default function SignUpDOBForm() {
 	return <div>SignUpDOB</div>;
 }

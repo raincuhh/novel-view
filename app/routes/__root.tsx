@@ -7,6 +7,7 @@ import "../styles/global.css";
 import NotFound from "@/pages/notFound/components/ui/notFound";
 import AppProvider from "@/shared/providers/appProvider";
 import { Suspense } from "react";
+import { isProd } from "@/shared/lib/environmentHelpers";
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -53,10 +54,12 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			<body className="scroll-smooth">
 				<AppProvider>
 					<Layout>{children}</Layout>
-					<div className="absolute">
-						<ReactQueryDevtools buttonPosition="bottom-left" />
-						<TanStackRouterDevtools position="bottom-right" />
-					</div>
+					{isProd() ? (
+						<div className="absolute">
+							<ReactQueryDevtools buttonPosition="bottom-left" />
+							<TanStackRouterDevtools position="bottom-right" />
+						</div>
+					) : null}
 					<Scripts />
 				</AppProvider>
 			</body>
