@@ -6,7 +6,7 @@ import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
 import { Gender, GenderType } from "@/shared/lib/types";
 import RenderList from "@/shared/components/utils/renderList";
 import { genderEnumToFullWord } from "@/shared/lib/utils";
-import OnboaridngViewContainer from "./onboardingViewContainer";
+import OnboardingViewContainer from "./onboardingViewContainer";
 
 export default function RegisterGenderForm() {
 	const { viewSwitcherNavigate } = useViewTransition<CombinedOnboardingViews>();
@@ -22,9 +22,9 @@ export default function RegisterGenderForm() {
 	const genderList: GenderType[] = Object.values(Gender).flat();
 
 	return (
-		<OnboaridngViewContainer className="justify-start gap-4">
+		<OnboardingViewContainer className="justify-start gap-4">
 			<div className="flex flex-col gap-2 mt-12">
-				<h1 className="text-2xl font-semibold">Choose Gender</h1>
+				<h1 className="text-2xl font-semibold select-none">Choose Gender</h1>
 				<div className="flex flex-row flex-wrap gap-2">
 					<RenderList
 						data={genderList}
@@ -52,6 +52,6 @@ export default function RegisterGenderForm() {
 					Next
 				</Button>
 			</div>
-		</OnboaridngViewContainer>
+		</OnboardingViewContainer>
 	);
 }

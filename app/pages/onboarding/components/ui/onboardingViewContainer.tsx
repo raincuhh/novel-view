@@ -1,7 +1,7 @@
 import { cn } from "@/shared/lib/utils";
 import React, { forwardRef, HTMLAttributes } from "react";
 
-const OnboaridngViewContainer = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+const OnboardingViewContainer = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
 	({ className, children, ...props }, ref) => {
 		return (
 			<div
@@ -14,4 +14,4 @@ const OnboaridngViewContainer = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDi
 		);
 	}
 );
-export default OnboaridngViewContainer;
+export default OnboardingViewContainer;

@@ -3,13 +3,13 @@ import { CombinedOnboardingViews } from "../../types";
 import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
 import { Button } from "@/shared/components/ui/button";
 import Icon from "@/shared/components/ui/icon";
-import OnboaridngViewContainer from "./onboardingViewContainer";
+import OnboardingViewContainer from "./onboardingViewContainer";
 
 export default function RegisterOptions() {
 	const { viewSwitcherNavigate } = useViewTransition<CombinedOnboardingViews>();
 
 	return (
-		<OnboaridngViewContainer>
+		<OnboardingViewContainer>
 			<div className="flex flex-col h-full justify-center">
 				<div className="flex justify-center pb-4">
 					<Icon.brandLogo className="w-24 h-24 md:w-32 md:h-32 fill-accent hover:fill-accent-hover transition-discrete duration-100 ease-in-out" />
@@ -46,6 +46,6 @@ export default function RegisterOptions() {
 					</span>
 				</div>
 			</div>
-		</OnboaridngViewContainer>
+		</OnboardingViewContainer>
 	);
 }

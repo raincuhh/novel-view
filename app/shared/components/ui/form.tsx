@@ -22,7 +22,7 @@ const FormLabel = forwardRef<HTMLLabelElement, LabelHTMLAttributes<HTMLLabelElem
 		return (
 			<Label
 				ref={ref}
-				className={cn(error && "text-info-danger-text", className)}
+				className={cn(error && "text-info-danger-text", "select-none", className)}
 				htmlFor={htmlFor}
 				{...props}
 			/>

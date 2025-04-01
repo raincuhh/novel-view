@@ -3,7 +3,7 @@ import { baseRegisterFormSchema, useRegisterFormStore } from "../../registerForm
 import { Button } from "@/shared/components/ui/button";
 import { CombinedOnboardingViews } from "../../types";
 import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
-import OnboaridngViewContainer from "./onboardingViewContainer";
+import OnboardingViewContainer from "./onboardingViewContainer";
 import { FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 
@@ -66,7 +66,7 @@ export default function RegisterPasswordForm() {
 	};
 
 	return (
-		<OnboaridngViewContainer className="justify-start gap-4">
+		<OnboardingViewContainer className="justify-start gap-4">
 			<div className="flex flex-col gap-8 mt-12">
 				<FormItem>
 					<FormLabel
@@ -88,7 +88,6 @@ export default function RegisterPasswordForm() {
 							aria-labelledby="passwordLabel"
 						/>
 					</FormControl>
-					<FormDescription>You will need to verify this password later.</FormDescription>
 					<FormMessage error={errors.password} />
 				</FormItem>
 				<FormItem>
@@ -126,6 +125,6 @@ export default function RegisterPasswordForm() {
 					Next
 				</Button>
 			</div>
-		</OnboaridngViewContainer>
+		</OnboardingViewContainer>
 	);
 }

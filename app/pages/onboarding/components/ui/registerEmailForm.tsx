@@ -5,7 +5,7 @@ import { CombinedOnboardingViews } from "../../types";
 import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
 import { FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
-import OnboaridngViewContainer from "./onboardingViewContainer";
+import OnboardingViewContainer from "./onboardingViewContainer";
 
 const registerEmailSchema = baseRegisterFormSchema.pick({
 	email: true,
@@ -15,7 +15,6 @@ export default function RegisterEmailForm() {
 	const { viewSwitcherNavigate } = useViewTransition<CombinedOnboardingViews>();
 	const { formData, updateField } = useRegisterFormStore();
 
-	// const [email, setEmail] = useState<string>(formData.email);
 	const [error, setError] = useState<string | null>(null);
 	const [isValid, setIsValid] = useState<boolean>(
 		registerEmailSchema.safeParse({ email: formData.email }).success
@@ -31,7 +30,7 @@ export default function RegisterEmailForm() {
 	};
 
 	return (
-		<OnboaridngViewContainer className="justify-start gap-4">
+		<OnboardingViewContainer className="justify-start gap-4">
 			<div className="flex flex-col gap-8 mt-12">
 				<FormItem>
 					<FormLabel id="emailLabel" htmlFor="email" error={error} className="text-2xl font-extrabold">
@@ -64,6 +63,6 @@ export default function RegisterEmailForm() {
 					Next
 				</Button>
 			</div>
-		</OnboaridngViewContainer>
+		</OnboardingViewContainer>
 	);
 }
