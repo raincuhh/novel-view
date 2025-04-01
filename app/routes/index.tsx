@@ -12,7 +12,7 @@ function RouteComponent() {
 				Hello "/"! <Link to="/onboarding">to onboarding</Link>
 			</div>
 
-			<div>
+			<div className="flex justify-center mt-16">
 				<DOB />
 			</div>
 		</div>
