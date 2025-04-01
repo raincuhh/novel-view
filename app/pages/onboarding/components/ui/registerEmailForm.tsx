@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useRegisterFormStore, registerFormSchema } from "../../registerFormStore";
+import React, { useState } from "react";
+import { useRegisterFormStore, baseRegisterFormSchema } from "../../registerFormStore";
 import { Button } from "@/shared/components/ui/button";
 import { CombinedOnboardingViews } from "../../types";
 import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
 
-const RegisterEmailSchema = registerFormSchema.pick({
+const registerEmailSchema = baseRegisterFormSchema.pick({
 	email: true,
 });
 
 export default function RegisterEmailForm() {
 	const { viewSwitcherNavigate } = useViewTransition<CombinedOnboardingViews>();
 	const { formData, updateField } = useRegisterFormStore();
-	const [email, setEmail] = useState(formData.email);
+
+	const [email, setEmail] = useState<string>(formData.email);
 	const [error, setError] = useState<string | null>(null);
 	const [isValid, setIsValid] = useState<boolean>(false);
-
-	useEffect(() => {
-		const result = RegisterEmailSchema.safeParse({ email });
-		setIsValid(result.success);
-	}, [email]);
 
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value;
 		setEmail(value);
 
-		const result = RegisterEmailSchema.safeParse({ email: value });
-		setIsValid(result.success);
-
+		const result = registerEmailSchema.safeParse({ email: value });
 		if (!result.success) {
-			setError(result.error.errors[0].message);
+			setError(result.error.errors[0]?.message);
+			setIsValid(false);
 		} else {
 			setError(null);
 			updateField({ email: value });
+			setIsValid(true);
 		}
 	};
 
@@ -49,7 +45,7 @@ export default function RegisterEmailForm() {
 					placeholder="Enter your email"
 					className="border p-2 rounded-md w-full"
 				/>
-				{error && <p className="text-red-500 text-sm">{error}</p>}
+				{error && <p className="text-info-danger-text text-sm">{error}</p>}
 			</div>
 			<div className="flex w-full justify-center">
 				<Button

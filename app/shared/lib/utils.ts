@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Gender, GenderType } from "./types";
 
 export const uppercaseify = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -79,15 +80,25 @@ export const cn = (...inputs: ClassValue[]) => {
 	return twMerge(clsx(inputs));
 };
 
-// export const getEnvVar = (key: string) => {
-// 	if (process.env[key] === undefined) {
-// 		throw new Error(`Env variable ${key} is required`);
-// 	}
-// 	return process.env[key] || "";
-// };
-
 export const getEnvVar = (key: string): string =>
 	import.meta.env[`VITE_${key}`] ||
 	(() => {
 		throw new Error(`Env variable VITE_${key} is required`);
 	})();
+
+export const genderEnumToFullWord = (gender: GenderType): string => {
+	switch (gender) {
+		case "Male":
+			return "Male";
+		case "Female":
+			return "Female";
+		case "NonBinary":
+			return "Non-Binary";
+		case "Other":
+			return "Other";
+		case "PreferNotToSay":
+			return "Prefer not to say";
+		default:
+			throw new Error("Invalid gender value");
+	}
+};

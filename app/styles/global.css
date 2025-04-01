@@ -88,7 +88,7 @@
 	--color-accent-1: oklch(calc(var(--accent-l) * 1.05) var(--accent-c) var(--accent-h));
 	--color-accent-2: oklch(calc(var(--accent-l) * 1.1) var(--accent-c) var(--accent-h));
 
-	--color-accent-hover: oklch(calc(var(--accent-l) * 1.1) var(--accent-c) var(--accent-h));
+	--color-accent-hover: oklch(calc(var(--accent-l) * 1.2) var(--accent-c) var(--accent-h));
 	--color-accent-active: oklch(calc(var(--accent-l) * 0.95) var(--accent-c) var(--accent-h));
 
 	--color-warning-1000: hsl(33, 100%, 10%);

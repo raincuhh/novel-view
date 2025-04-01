@@ -23,18 +23,18 @@
 // }
 
 export enum CombinedOnboardingViews {
-	// top-level flow.
+	//toplevel flow.
 	welcome = "welcome",
 	loginOptions = "loginOptions",
 	registerOptions = "registerOptions",
 
-	// login flow
+	//login flow
 	loginForm = "loginForm",
 	resetPasswordForm = "resetPasswordForm",
 	forgotPasswordForm = "forgotPasswordForm",
 	verifyEmailForm = "verifyEmailForm",
 
-	// register flow
+	//register flow
 	registerEmailForm = "registerEmailForm",
 	registerPasswordForm = "registerPasswordForm",
 	registerGenderForm = "registerGenderForm",
