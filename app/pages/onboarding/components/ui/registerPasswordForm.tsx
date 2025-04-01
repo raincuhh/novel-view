@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { baseRegisterFormSchema, useRegisterFormStore } from "../../registerFormStore";
 import { Button } from "@/shared/components/ui/button";
 import { CombinedOnboardingViews } from "../../types";
 import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
+import OnboaridngViewContainer from "./onboardingViewContainer";
+import { FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/shared/components/ui/form";
+import { Input } from "@/shared/components/ui/input";
 
 const RegisterPasswordSchema = baseRegisterFormSchema.pick({
 	password: true,
@@ -63,35 +66,53 @@ export default function RegisterPasswordForm() {
 	};
 
 	return (
-		<div className="flex flex-col h-full justify-between">
-			<div className="flex flex-col">
-				<label htmlFor="password" className="text-sm font-medium">
-					Password
-				</label>
-				<input
-					id="password"
-					type="password"
-					value={password}
-					onChange={handlePasswordChange}
-					placeholder="Enter password"
-					className="border p-2 rounded-md w-full"
-				/>
-				{errors.password && <p className="text-info-danger-text text-sm">{errors.password}</p>}
-
-				<label htmlFor="repeatPassword" className="text-sm font-medium mt-2">
-					Confirm Password
-				</label>
-				<input
-					id="repeatPassword"
-					type="password"
-					value={repeatPassword}
-					onChange={handleRepeatPasswordChange}
-					placeholder="Repeat password"
-					className="border p-2 rounded-md w-full"
-				/>
-				{errors.repeatPassword && (
-					<p className="text-info-danger-text text-sm">{errors.repeatPassword}</p>
-				)}
+		<OnboaridngViewContainer className="justify-start gap-4">
+			<div className="flex flex-col gap-8 mt-12">
+				<FormItem>
+					<FormLabel
+						id="passwordLabel"
+						htmlFor="password"
+						error={errors.password}
+						className="text-2xl font-extrabold"
+					>
+						Password
+					</FormLabel>
+					<FormControl>
+						<Input
+							id="password"
+							name="password"
+							type="password"
+							autoComplete="off"
+							onChange={handlePasswordChange}
+							placeholder="Enter password"
+							aria-labelledby="passwordLabel"
+						/>
+					</FormControl>
+					<FormDescription>You will need to verify this password later.</FormDescription>
+					<FormMessage error={errors.password} />
+				</FormItem>
+				<FormItem>
+					<FormLabel
+						id="repeatPasswordLabel"
+						htmlFor="repeatPassword"
+						error={errors.repeatPassword}
+						className="text-2xl font-extrabold"
+					>
+						Repeat password
+					</FormLabel>
+					<FormControl>
+						<Input
+							id="repeatPassword"
+							name="repeatPassword"
+							type="password"
+							autoComplete="off"
+							onChange={handleRepeatPasswordChange}
+							placeholder="Repeat your password"
+							aria-labelledby="repeatPasswordLabel"
+						/>
+					</FormControl>
+					<FormMessage error={errors.repeatPassword} />
+				</FormItem>
 			</div>
 			<div className="flex w-full justify-center">
 				<Button
@@ -100,10 +121,11 @@ export default function RegisterPasswordForm() {
 					variant="accent"
 					disabled={!isValid}
 					onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.registerGenderForm)}
+					aria-label="next"
 				>
 					Next
 				</Button>
 			</div>
-		</div>
+		</OnboaridngViewContainer>
 	);
 }

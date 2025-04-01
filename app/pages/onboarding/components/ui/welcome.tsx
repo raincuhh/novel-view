@@ -3,12 +3,13 @@ import Icon from "@/shared/components/ui/icon";
 import { CombinedOnboardingViews } from "../../types";
 import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
 import React from "react";
+import OnboaridngViewContainer from "./onboardingViewContainer";
 
 export default function Welcome() {
 	const { viewSwitcherNavigate } = useViewTransition<CombinedOnboardingViews>();
 
 	return (
-		<div className="flex flex-col justify-between h-full">
+		<OnboaridngViewContainer>
 			<div className="flex flex-col h-full justify-center">
 				<div className="flex justify-center pb-4">
 					<Icon.brandLogo className="w-[6rem] h-[6rem] md:w-[8rem] md:h-[8rem] fill-accent hover:fill-accent-hover transition-discrete duration-100 ease-in-out" />
@@ -24,6 +25,7 @@ export default function Welcome() {
 						rounded="full"
 						size="lg"
 						onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.registerOptions)}
+						aria-label="register options"
 					>
 						Register Now
 					</Button>
@@ -32,6 +34,7 @@ export default function Welcome() {
 						rounded="full"
 						size="lg"
 						onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.loginOptions)}
+						aria-label="login options"
 					>
 						Log in
 					</Button>
@@ -41,6 +44,6 @@ export default function Welcome() {
 					<span className="font-bold">Privacy Policy</span>.
 				</div>
 			</div>
-		</div>
+		</OnboaridngViewContainer>
 	);
 }

@@ -45,13 +45,13 @@ export const Route = createFileRoute("/(onboarding)/_onboarding/onboarding")({
 function RouteComponent() {
 	return (
 		<div className="absolute h-screen w-screen flex flex-col">
-			<div className="py-6 px-6 lg:px-8 sm:mx-auto sm:w-full sm:max-w-sm h-full">
+			<div className=" sm:mx-auto sm:w-full sm:max-w-sm h-full">
 				<ViewTransitionProvider
 					initialView={CombinedOnboardingViews.welcome}
 					duration={250}
 					type={CombinedOnboardingViews}
 				>
-					<div className="flex-1 overflow-hidden w-full h-full relative">
+					<div className="flex-1 overflow-hidden w-full h-full relative ">
 						<AnimatedTransitionContent<CombinedOnboardingViews>
 							viewComponents={viewComponents}
 							initial="enter"

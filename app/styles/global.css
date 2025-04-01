@@ -153,6 +153,12 @@
 	}
 }
 
+@layer utilities {
+	.autofill\:bg-autofill-interactive-input-bg:-webkit-autofill {
+		background: var(--color-base-10) !important;
+	}
+}
+
 ::selection {
 	background: var(--color-text-selection);
 	color: var(--rgb-full);

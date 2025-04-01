@@ -1,47 +1,45 @@
 import React, { useState } from "react";
-import { useRegisterFormStore, baseRegisterFormSchema } from "../../registerFormStore";
+import { useRegisterFormStore } from "../../registerFormStore";
 import { Button } from "@/shared/components/ui/button";
 import { CombinedOnboardingViews } from "../../types";
 import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
 import { Gender, GenderType } from "@/shared/lib/types";
 import RenderList from "@/shared/components/utils/renderList";
 import { genderEnumToFullWord } from "@/shared/lib/utils";
+import OnboaridngViewContainer from "./onboardingViewContainer";
 
-const registerGenderSchema = baseRegisterFormSchema.pick({
-	gender: true,
-});
-
-export default function SignUpGenderForm() {
+export default function RegisterGenderForm() {
 	const { viewSwitcherNavigate } = useViewTransition<CombinedOnboardingViews>();
 	const { formData, updateField } = useRegisterFormStore();
 
-	const [gender, setGender] = useState<GenderType | null>(formData.gender);
-	const [isValid, setIsValid] = useState<boolean>(false);
+	const [isValid, setIsValid] = useState<boolean>(formData.gender !== null);
 
-	const switchGender = (gend: GenderType | null) => {
-		setGender(gend);
-		updateField({ gender: gend });
-		setIsValid(gend !== null);
+	const switchGender = (gender: GenderType | null) => {
+		updateField({ gender: gender });
+		setIsValid(gender !== null);
 	};
 
 	const genderList: GenderType[] = Object.values(Gender).flat();
 
 	return (
-		<div className="flex flex-col h-full justify-between">
-			<div className="flex flex-row flex-wrap gap-2">
-				<RenderList
-					data={genderList}
-					render={(gender: GenderType, i: number) => (
-						<Button
-							variant={gender === formData.gender ? "accent" : "outline"}
-							rounded="full"
-							key={i}
-							onClick={() => switchGender(gender)}
-						>
-							{genderEnumToFullWord(gender)}
-						</Button>
-					)}
-				/>
+		<OnboaridngViewContainer className="justify-start gap-4">
+			<div className="flex flex-col gap-2 mt-12">
+				<h1 className="text-2xl font-semibold">Choose Gender</h1>
+				<div className="flex flex-row flex-wrap gap-2">
+					<RenderList
+						data={genderList}
+						render={(gender: GenderType, i: number) => (
+							<Button
+								variant={gender === formData.gender ? "accent" : "outline"}
+								rounded="full"
+								key={i}
+								onClick={() => switchGender(gender)}
+							>
+								{genderEnumToFullWord(gender)}
+							</Button>
+						)}
+					/>
+				</div>
 			</div>
 			<div className="flex w-full justify-center">
 				<Button
@@ -54,6 +52,6 @@ export default function SignUpGenderForm() {
 					Next
 				</Button>
 			</div>
-		</div>
+		</OnboaridngViewContainer>
 	);
 }

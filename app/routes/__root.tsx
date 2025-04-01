@@ -71,7 +71,7 @@ type LayoutProps = Readonly<PropsWithChildren>;
 
 function Layout({ children }: LayoutProps) {
 	return (
-		<div className="flex flex-col bg-primary text-normal">
+		<div className="flex flex-col bg-primary text-normal font-medium">
 			<main>{children}</main>
 		</div>
 	);
