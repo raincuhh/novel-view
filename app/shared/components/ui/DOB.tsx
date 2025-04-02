@@ -112,40 +112,42 @@ type DOBScrollbarProps<T extends number> = {
 	onValueSelect: (value: T) => void;
 };
 
-const DOBScrollbar = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement> & DOBScrollbarProps<number>>(
-	({ className, data, selected, onValueSelect, ...props }, ref) => {
-		const handleScroll = () => {};
+const DOBScrollbar = forwardRef<
+	HTMLUListElement,
+	HTMLAttributes<HTMLUListElement> & DOBScrollbarProps<number>
+>(({ className, data, selected, onValueSelect, ...props }, ref) => {
+	const handleScroll = () => {};
 
-		useEffect(() => {
-			const scrollContainer = (ref as React.RefObject<HTMLDivElement>)?.current;
-			if (!scrollContainer) return;
+	useEffect(() => {
+		const scrollContainer = (ref as React.RefObject<HTMLUListElement>)?.current;
+		if (!scrollContainer) return;
 
-			scrollContainer.addEventListener("scroll", handleScroll);
-			return () => scrollContainer.removeEventListener("scroll", handleScroll);
-		}, [data, onValueSelect]);
+		scrollContainer.addEventListener("scroll", handleScroll);
+		return () => scrollContainer.removeEventListener("scroll", handleScroll);
+	}, [data, onValueSelect]);
 
-		return (
-			<div
-				ref={ref}
-				className={`flex flex-col snap-y snap-mandatory overflow-y-scroll scrollbar-hidden pt-[14.5px] ${className || ""}`}
-				{...props}
-			>
-				<RenderList
-					data={data}
-					render={(item, i) => (
-						<div
-							key={i}
-							className={cn(
-								"snap-center font-bold text-xl mb-[14px] px-4 flex justify-center dob-item select-none",
-								item === selected ? "text-accent" : ""
-							)}
-							onClick={() => onValueSelect(item)}
-						>
-							{item}
-						</div>
-					)}
-				/>
-			</div>
-		);
-	}
-);
+	return (
+		<ul
+			ref={ref}
+			className={`flex flex-col snap-y snap-mandatory overflow-y-scroll scrollbar-hidden pt-[14.5px] ${className || ""}`}
+			{...props}
+		>
+			<RenderList
+				data={data}
+				render={(item, i) => (
+					<li
+						key={i}
+						className={cn(
+							"snap-center font-bold text-xl mb-[14px] px-4 flex justify-center dob-item select-none",
+							item === selected ? "text-accent" : ""
+						)}
+						onClick={() => onValueSelect(item)}
+					>
+						{item}
+					</li>
+				)}
+			/>
+		</ul>
+		//https://www.lightnovelworld.co/novel/shadow-slave-1365/chapter-2159
+	);
+});
