@@ -102,3 +102,7 @@ export const genderEnumToFullWord = (gender: GenderType): string => {
 			throw new Error("Invalid gender value");
 	}
 };
+
+export const censorStr = (str: string) => {
+	return str.replace(/./g, "*");
+};

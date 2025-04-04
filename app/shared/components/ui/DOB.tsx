@@ -1,4 +1,4 @@
-import React, { forwardRef, HTMLAttributes, useEffect, useState } from "react";
+import React, { forwardRef, HTMLAttributes, useEffect, useRef, useState } from "react";
 import RenderList from "../utils/renderList";
 import { cn } from "@/shared/lib/utils";
 
@@ -13,8 +13,33 @@ const DOB = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(({ classN
 	});
 
 	const daysInMonth = (month: number, year: number) => new Date(year, month, 0).getDate();
-	const rotateArray = <T,>(array: T[], startIndex: number): T[] => {
-		return [...array.slice(startIndex), ...array.slice(0, startIndex)];
+	// const rotateArray = <T,>(array: T[], startIndex: number): T[] => {
+	// 	return [...array.slice(startIndex), ...array.slice(0, startIndex)];
+	// };
+
+	const generateInfiniteData = <T,>(data: T[]): T[] => {
+		return [...data, ...data, ...data];
+	};
+
+	const handleDayChange = (newDay: number) => {
+		setCurrentDay(newDay);
+	};
+
+	const handleMonthChange = (newMonth: number) => {
+		setCurrentMonth(newMonth);
+
+		const maxDays = daysInMonth(newMonth, currentYear);
+		if (currentDay > maxDays) {
+			setCurrentDay(maxDays);
+		}
+	};
+
+	const handleYearChange = (newYear: number) => {
+		setCurrentYear(newYear);
+		const maxDays = daysInMonth(currentMonth, newYear);
+		if (currentDay > maxDays) {
+			setCurrentDay(maxDays);
+		}
 	};
 
 	useEffect(() => {
@@ -35,7 +60,7 @@ const DOB = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(({ classN
 	}, [currentDay, currentMonth, currentYear]);
 
 	return (
-		<div className="w-min mx-4 relative">
+		<div className="w-min mx-4 relative" {...props}>
 			<div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none">
 				<div
 					className="w-full h-full"
@@ -77,27 +102,23 @@ const DOB = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(({ classN
 			<div className="flex justify-center max-h-36 overflow-y-hidden">
 				<DOBScrollbar
 					className="dob-day"
-					data={rotateArray(
-						Array.from({ length: daysInMonth(currentMonth, currentYear) }, (_, i) => i + 1),
-						currentDay - 1
+					data={generateInfiniteData(
+						Array.from({ length: daysInMonth(currentMonth, currentYear) }, (_, i) => i + 1)
 					)}
 					selected={currentDay}
-					onValueSelect={setCurrentDay}
+					onValueSelect={handleDayChange}
 				/>
 				<DOBScrollbar
 					className="dob-month"
-					data={rotateArray(
-						Array.from({ length: 12 }, (_, i) => i + 1),
-						currentMonth - 1
-					)}
+					data={generateInfiniteData(Array.from({ length: 12 }, (_, i) => i + 1))}
 					selected={currentMonth}
-					onValueSelect={setCurrentMonth}
+					onValueSelect={handleMonthChange}
 				/>
 				<DOBScrollbar
 					className="dob-year"
-					data={Array.from({ length: 101 }, (_, i) => currentYear - i)}
+					data={generateInfiniteData(Array.from({ length: 101 }, (_, i) => currentYear - i))}
 					selected={currentYear}
-					onValueSelect={setCurrentYear}
+					onValueSelect={handleYearChange}
 				/>
 			</div>
 		</div>
@@ -116,19 +137,64 @@ const DOBScrollbar = forwardRef<
 	HTMLUListElement,
 	HTMLAttributes<HTMLUListElement> & DOBScrollbarProps<number>
 >(({ className, data, selected, onValueSelect, ...props }, ref) => {
-	const handleScroll = () => {};
+	const scrollRef = useRef<HTMLUListElement | null>(null);
+	const itemHeight = 36;
+	const visibleItems = 3;
 
-	useEffect(() => {
-		const scrollContainer = (ref as React.RefObject<HTMLUListElement>)?.current;
+	const middleIndex = Math.floor(visibleItems / 2);
+
+	const handleScroll = () => {
+		const scrollContainer = scrollRef.current;
 		if (!scrollContainer) return;
 
-		scrollContainer.addEventListener("scroll", handleScroll);
-		return () => scrollContainer.removeEventListener("scroll", handleScroll);
-	}, [data, onValueSelect]);
+		const scrollTop = scrollContainer.scrollTop;
+		const totalItems = data.length / 3;
+		const index = Math.round(scrollTop / itemHeight) % totalItems;
+
+		const normalizedIndex = (index + totalItems) % totalItems;
+		onValueSelect(data[normalizedIndex]);
+	};
+
+	useEffect(() => {
+		const scrollContainer = scrollRef.current;
+		if (!scrollContainer) return;
+
+		const totalItems = data.length / 3;
+		const selectedIndex = data.findIndex((item) => item === selected);
+
+		const scrollPosition =
+			((selectedIndex + totalItems) % totalItems) * itemHeight - middleIndex * itemHeight;
+
+		scrollContainer.scrollTop = scrollPosition;
+	}, [selected, data]);
+
+	useEffect(() => {
+		const scrollContainer = scrollRef.current;
+		if (!scrollContainer) return;
+
+		const totalItems = data.length / 3;
+		const maxScroll = totalItems * itemHeight;
+
+		const handleBoundaryScroll = () => {
+			if (scrollContainer.scrollTop <= 0) {
+				scrollContainer.scrollTop = maxScroll;
+			} else if (scrollContainer.scrollTop >= maxScroll * 2) {
+				scrollContainer.scrollTop = maxScroll;
+			}
+		};
+
+		scrollContainer.addEventListener("scroll", handleBoundaryScroll);
+		return () => scrollContainer.removeEventListener("scroll", handleBoundaryScroll);
+	}, [data]);
 
 	return (
 		<ul
-			ref={ref}
+			ref={(node) => {
+				scrollRef.current = node;
+				if (ref && typeof ref === "function") ref(node);
+				else if (ref && typeof ref === "object") ref.current = node;
+			}}
+			onScroll={handleScroll}
 			className={`flex flex-col snap-y snap-mandatory overflow-y-scroll scrollbar-hidden pt-[14.5px] ${className || ""}`}
 			{...props}
 		>
@@ -138,7 +204,7 @@ const DOBScrollbar = forwardRef<
 					<li
 						key={i}
 						className={cn(
-							"snap-center font-bold text-xl mb-[14px] px-4 flex justify-center dob-item select-none",
+							"snap-center font-bold text-xl mb-[14px] px-4 flex justify-center items-center dob-item select-none",
 							item === selected ? "text-accent" : ""
 						)}
 						onClick={() => onValueSelect(item)}

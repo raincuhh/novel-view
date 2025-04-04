@@ -23,15 +23,25 @@ export default function RegisterDOBForm() {
 		<OnboardingViewContainer>
 			<div className="flex flex-col gap-2 mt-12">
 				<h1 className="text-2xl font-semibold select-none">Choose your Date of Birth</h1>
-				<DOB />
+				{/* <DOB /> */}
+				Date of birth currently work in progress
 			</div>
-			<div className="flex w-full justify-center">
+			<div className="flex w-full justify-center gap-4">
+				<Button
+					size="lg"
+					rounded="full"
+					variant="link"
+					onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.registerUsernameForm)}
+					aria-label="next"
+				>
+					Skip
+				</Button>
 				<Button
 					size="lg"
 					rounded="full"
 					variant="accent"
-					disabled={!isValid}
-					onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.registerGenderForm)}
+					disabled={!!isValid}
+					onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.registerUsernameForm)}
 					aria-label="next"
 				>
 					Next
