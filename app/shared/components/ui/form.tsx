@@ -5,7 +5,7 @@ import { cn } from "@/shared/lib/utils";
 const Form = forwardRef<HTMLFormElement, HTMLAttributes<HTMLFormElement>>(
 	({ className, children, ...props }, ref) => {
 		return (
-			<form ref={ref} className={cn("space-y-4", className)} {...props}>
+			<form ref={ref} className={cn("flex flex-col justify-start gap-4", className)} {...props}>
 				{children}
 			</form>
 		);

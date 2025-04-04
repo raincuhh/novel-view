@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import OnboardingViewContainer from "./onboardingViewContainer";
-import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from "@/shared/components/ui/form";
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/shared/components/ui/form";
 import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
 import { CombinedOnboardingViews } from "../../types";
 import { baseRegisterFormSchema, useRegisterFormStore } from "../../registerFormStore";
@@ -29,45 +36,55 @@ export default function RegisterUsernameForm() {
 		setIsValid(result.success);
 	};
 
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if (isValid) {
+			viewSwitcherNavigate(CombinedOnboardingViews.registerFinish);
+		}
+	};
+
 	return (
-		<OnboardingViewContainer className="justify-start gap-4">
-			<div className="flex flex-col gap-8 mt-12">
-				<FormItem>
-					<FormLabel
-						id="usernameLabel"
-						htmlFor="username"
-						error={error}
-						className="text-2xl font-extrabold"
+		<OnboardingViewContainer>
+			<Form onSubmit={handleSubmit}>
+				<div className="flex flex-col gap-8 mt-12">
+					<FormItem>
+						<FormLabel
+							id="usernameLabel"
+							htmlFor="username"
+							error={error}
+							className="text-2xl font-extrabold"
+						>
+							Username
+						</FormLabel>
+						<FormControl>
+							<Input
+								id="username"
+								name="username"
+								type="username"
+								autoComplete="on"
+								onChange={handleUsernameChange}
+								placeholder="Enter Username"
+								aria-labelledby="usernameLabel"
+								value={formData.username ?? ""}
+							/>
+						</FormControl>
+						<FormDescription></FormDescription>
+						<FormMessage />
+					</FormItem>
+				</div>
+				<div className="flex w-full justify-center">
+					<Button
+						size="lg"
+						rounded="full"
+						variant="accent"
+						disabled={!isValid}
+						onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.registerFinish)}
+						aria-label="next"
 					>
-						Username
-					</FormLabel>
-					<FormControl>
-						<Input
-							id="username"
-							name="username"
-							type="username"
-							autoComplete="on"
-							onChange={handleUsernameChange}
-							placeholder="Enter Username"
-							aria-labelledby="usernameLabel"
-						/>
-					</FormControl>
-					<FormDescription></FormDescription>
-					<FormMessage />
-				</FormItem>
-			</div>
-			<div className="flex w-full justify-center">
-				<Button
-					size="lg"
-					rounded="full"
-					variant="accent"
-					disabled={!isValid}
-					onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.registerFinish)}
-					aria-label="next"
-				>
-					Next
-				</Button>
-			</div>
+						Next
+					</Button>
+				</div>
+			</Form>
 		</OnboardingViewContainer>
 	);
 }

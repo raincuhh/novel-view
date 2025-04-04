@@ -3,7 +3,14 @@ import { useRegisterFormStore, baseRegisterFormSchema } from "../../registerForm
 import { Button } from "@/shared/components/ui/button";
 import { CombinedOnboardingViews } from "../../types";
 import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
-import { FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/shared/components/ui/form";
+import {
+	FormItem,
+	FormLabel,
+	FormControl,
+	FormMessage,
+	FormDescription,
+	Form,
+} from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import OnboardingViewContainer from "./onboardingViewContainer";
 
@@ -29,40 +36,55 @@ export default function RegisterEmailForm() {
 		setIsValid(result.success);
 	};
 
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if (isValid) {
+			viewSwitcherNavigate(CombinedOnboardingViews.registerPasswordForm);
+		}
+	};
+
 	return (
-		<OnboardingViewContainer className="justify-start gap-4">
-			<div className="flex flex-col gap-8 mt-12">
-				<FormItem>
-					<FormLabel id="emailLabel" htmlFor="email" error={error} className="text-2xl font-extrabold">
-						Email Address
-					</FormLabel>
-					<FormControl>
-						<Input
-							id="email"
-							name="email"
-							type="email"
-							autoComplete="on"
-							onChange={handleEmailChange}
-							placeholder="Enter email"
-							aria-labelledby="emailLabel"
-						/>
-					</FormControl>
-					<FormDescription>You will need to verify this email later.</FormDescription>
-					<FormMessage error={error} />
-				</FormItem>
-			</div>
-			<div className="flex w-full justify-center">
-				<Button
-					size="lg"
-					rounded="full"
-					variant="accent"
-					disabled={!isValid}
-					onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.registerPasswordForm)}
-					aria-label="next"
-				>
-					Next
-				</Button>
-			</div>
+		<OnboardingViewContainer>
+			<Form onSubmit={handleSubmit}>
+				<div className="flex flex-col gap-8 mt-12">
+					<FormItem>
+						<FormLabel
+							id="emailLabel"
+							htmlFor="email"
+							error={error}
+							className="text-2xl font-extrabold"
+						>
+							Email Address
+						</FormLabel>
+						<FormControl>
+							<Input
+								id="email"
+								name="email"
+								type="email"
+								autoComplete="on"
+								onChange={handleEmailChange}
+								placeholder="Enter email"
+								aria-labelledby="emailLabel"
+								value={formData.email ?? ""}
+							/>
+						</FormControl>
+						<FormDescription>You will need to verify this email later.</FormDescription>
+						<FormMessage error={error} />
+					</FormItem>
+				</div>
+				<div className="flex w-full justify-center">
+					<Button
+						size="lg"
+						rounded="full"
+						variant="accent"
+						disabled={!isValid}
+						onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.registerPasswordForm)}
+						aria-label="next"
+					>
+						Next
+					</Button>
+				</div>
+			</Form>
 		</OnboardingViewContainer>
 	);
 }
