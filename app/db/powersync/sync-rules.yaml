@@ -1,0 +1,21 @@
+bucket_definitions:
+   user_profiles:
+      parameters:
+         - SELECT user_id FROM auth.users WHERE id = $user_id
+      data:
+         - SELECT * FROM profiles WHERE user_id = $user_id
+   user_libraries:
+      parameters:
+         - SELECT user_id FROM auth.users WHERE id = $user_id
+      data:
+         - SELECT * FROM libraries WHERE user_id = $user_id
+   user_books:
+      parameters:
+         - SELECT user_id FROM auth.users WHERE id = $user_id
+      data:
+         - SELECT * FROM books WHERE user_id = $user_id
+   user_settings:
+      parameters:
+         - SELECT user_id FROM auth.users WHERE id = $user_id
+      data:
+         - SELECT * FROM user_settings WHERE user_id = $user_id

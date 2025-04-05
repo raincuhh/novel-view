@@ -16,11 +16,11 @@ export type User = SupabaseUser & {
 export type DateOfBirth = `${number}-${number}-${number}`;
 
 export enum Gender {
-	Male = "Male",
-	Female = "Female",
-	NonBinary = "NonBinary",
-	Other = "Other",
-	PreferNotToSay = "PreferNotToSay",
+	male = "male",
+	female = "female",
+	nonBinary = "nonBinary",
+	other = "other",
+	preferNotToSay = "preferNotToSay",
 }
 
 export type GenderType = keyof typeof Gender;

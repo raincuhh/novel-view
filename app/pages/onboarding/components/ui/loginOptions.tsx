@@ -25,7 +25,7 @@ export default function LoginOptions() {
 						variant="accent"
 						rounded="full"
 						size="lg"
-						onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.registerEmailForm)}
+						onClick={() => viewSwitcherNavigate(CombinedOnboardingViews.loginForm)}
 					>
 						Continue with email
 					</Button>

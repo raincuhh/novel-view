@@ -88,15 +88,15 @@ export const getEnvVar = (key: string): string =>
 
 export const genderEnumToFullWord = (gender: GenderType): string => {
 	switch (gender) {
-		case "Male":
-			return "Male";
-		case "Female":
+		case "male":
+			return "male";
+		case "female":
 			return "Female";
-		case "NonBinary":
+		case "nonBinary":
 			return "Non-Binary";
-		case "Other":
+		case "other":
 			return "Other";
-		case "PreferNotToSay":
+		case "preferNotToSay":
 			return "Prefer not to say";
 		default:
 			throw new Error("Invalid gender value");

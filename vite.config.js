@@ -12,6 +12,12 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "./src"),
 		},
 	},
+	optimizeDeps: {
+		// dont optimize these packages as they contain web workers and WASM files.
+		exclude: ["@powersync/web"],
+		include: [],
+		// include: ['@powersync/web > js-logger'], // <-- Include `js-logger` when it isn't installed and imported.
+	},
 	server: {
 		port: 8080,
 		strictPort: true,
@@ -20,7 +26,7 @@ export default defineConfig({
 	},
 	build: {
 		target: process.env.TAURI_PLATFORM == "windows" ? "chrome105" : "safari13",
-		outDir: "dist/",
+		outDir: "./dist",
 		sourcemap: !!process.env.TAURI_DEBUG,
 	},
 });

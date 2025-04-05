@@ -54,7 +54,7 @@ export default function RegisterUsernameForm() {
 							error={error}
 							className="text-2xl font-extrabold"
 						>
-							Username
+							What's your username?
 						</FormLabel>
 						<FormControl>
 							<Input
@@ -63,13 +63,13 @@ export default function RegisterUsernameForm() {
 								type="username"
 								autoComplete="on"
 								onChange={handleUsernameChange}
-								placeholder="Enter Username"
+								// placeholder="Enter Username"
 								aria-labelledby="usernameLabel"
 								value={formData.username ?? ""}
 							/>
 						</FormControl>
-						<FormDescription></FormDescription>
-						<FormMessage />
+						<FormDescription>This will appear on your profile.</FormDescription>
+						<FormMessage error={error} />
 					</FormItem>
 				</div>
 				<div className="flex w-full justify-center">

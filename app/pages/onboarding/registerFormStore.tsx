@@ -3,15 +3,14 @@ import { z } from "zod";
 
 export const baseRegisterFormSchema = z.object({
 	email: z.string().email("Invalid email"),
-	password: z.string().min(10, "Password must be at least 10 characters").max(20),
-	repeatPassword: z.string().min(10, "Password must be at least 10 characters").max(20),
-	gender: z.enum(["Male", "Female", "NonBinary", "Other", "PreferNotToSay"]).nullable(),
+	password: z.string().min(10, "Password must be at least 10 characters"),
+	repeatPassword: z.string().min(10, "Password must be at least 10 characters"),
+	gender: z.enum(["male", "female", "nonBinary", "other", "preferNotToSay"]).nullable(),
 	DOB: z
 		.string()
 		.regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format (YYYY-MM-DD)")
 		.nullable(),
-	username: z.string().min(3, "Username must be at least 3 characters"),
-	terms: z.boolean().refine((data) => data),
+	username: z.string().min(2, "Username must be at least 2 characters"),
 });
 
 export const registerFormSchema = baseRegisterFormSchema.refine(
@@ -38,14 +37,13 @@ export const useRegisterFormStore = create<RegisterFormState>((set) => ({
 		gender: null,
 		DOB: null,
 		username: "",
-		terms: false,
 	},
 	updateField: (field) => {
 		set((state) => ({
 			formData: { ...state.formData, ...field },
 		}));
 
-		console.log(field);
+		console.log();
 	},
 	resetForm: () =>
 		set(() => ({
@@ -56,7 +54,6 @@ export const useRegisterFormStore = create<RegisterFormState>((set) => ({
 				gender: null,
 				DOB: null,
 				username: "",
-				terms: false,
 			},
 		})),
 }));

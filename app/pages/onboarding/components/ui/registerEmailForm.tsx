@@ -54,7 +54,7 @@ export default function RegisterEmailForm() {
 							error={error}
 							className="text-2xl font-extrabold"
 						>
-							Email Address
+							What's your email address?
 						</FormLabel>
 						<FormControl>
 							<Input
@@ -63,7 +63,6 @@ export default function RegisterEmailForm() {
 								type="email"
 								autoComplete="on"
 								onChange={handleEmailChange}
-								placeholder="Enter email"
 								aria-labelledby="emailLabel"
 								value={formData.email ?? ""}
 							/>

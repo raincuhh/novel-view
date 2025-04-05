@@ -1,52 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import OnboardingViewContainer from "./onboardingViewContainer";
-import { useViewTransition } from "@/shared/providers/viewTransitionProvider";
-import { CombinedOnboardingViews } from "../../types";
-import { baseRegisterFormSchema, useRegisterFormStore } from "../../registerFormStore";
 import { Button } from "@/shared/components/ui/button";
 import Checkbox from "@/shared/components/ui/checkbox";
 import ReadOnlyFormDisplay from "@/shared/components/ui/readOnlyFormDisplay";
 import { Form } from "@/shared/components/ui/form";
 import { Link } from "@tanstack/react-router";
-
-const registerTermsSchema = baseRegisterFormSchema.pick({ terms: true, privacy: true });
+import Separator from "@/shared/components/ui/separator";
+import { useRegisterFormStore } from "../../registerFormStore";
+import { cn } from "@/shared/lib/utils";
 
 export default function RegisterFinish() {
-	const { viewSwitcherNavigate } = useViewTransition<CombinedOnboardingViews>();
-	const { formData, updateField } = useRegisterFormStore();
+	const { formData } = useRegisterFormStore();
 
-	const [isValid, setIsValid] = useState<boolean>(
-		registerTermsSchema.safeParse({ terms: formData.terms, privacy: formData.privacy }).success
-	);
+	const [isSticky, setIsSticky] = useState<boolean>(true);
 
-	const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const isChecked = e.target.checked;
-		updateField({ terms: isChecked });
-		setIsValid(isChecked && formData.privacy);
-	};
+	const containerRef = useRef<HTMLDivElement>(null);
+	const bottomRef = useRef<HTMLDivElement>(null);
 
-	const handlePrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const isChecked = e.target.checked;
-		updateField({ privacy: isChecked });
-		setIsValid(formData.terms && isChecked);
-	};
+	useEffect(() => {
+		const observer = new IntersectionObserver(([entry]) => setIsSticky(!entry.isIntersecting), {
+			root: containerRef.current,
+			threshold: 1.0,
+		});
 
-	const handleTermsAndPrivacyChange = () => {
-		const isChecked = formData.terms && formData.privacy;
-		setIsValid(isChecked);
-	};
+		if (bottomRef.current) observer.observe(bottomRef.current);
+
+		return () => {
+			if (bottomRef.current) observer.unobserve(bottomRef.current);
+		};
+	}, []);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log("finalizing form...");
 		console.log("formData: ", formData);
-		if (isValid) {
-			viewSwitcherNavigate(CombinedOnboardingViews.registerEmailForm);
-		}
 	};
 
 	return (
-		<OnboardingViewContainer>
+		<OnboardingViewContainer ref={containerRef} className="hide-scrollbar relative overflow-y-scroll">
 			<Form onSubmit={handleSubmit}>
 				<div className="flex flex-col gap-8 mt-12">
 					<div className="flex flex-col gap-4">
@@ -57,57 +47,55 @@ export default function RegisterFinish() {
 						<ReadOnlyFormDisplay data={formData.DOB} label="Date of Birth" />
 						<ReadOnlyFormDisplay data={formData.username} label="Username" />
 					</div>
+					<Separator />
 					<div className="flex flex-col gap-4">
-						<div className="flex flex-col gap-4">
-							<div className="flex flex-col gap-2">
-								<p className="text-normal">
-									By agreeing to the{" "}
-									<Link to="/legal/tos" className="text-accent hover:text-accent-hover font-bold">
-										Terms of Use
-									</Link>
-									, you acknowledge that you have read, understood, and agreed to the policies
-									governing your usage of the app.
+						<div className="flex flex-col gap-6 select-none">
+							<div className="flex flex-col gap-4">
+								<p className="text-muted text-sm">
+									By clicking 'Finalize', you agree to NovelView's Terms of Use.
 								</p>
-								<Checkbox
-									onChange={handleTermsChange}
-									checked={formData.terms ?? false}
-									text="I agree to the Terms of Use"
-								/>
+								<Link
+									to="/legal/tos"
+									className="text-accent hover:text-accent-hover font-bold transition-discrete duration-100 ease-in-out"
+								>
+									Terms of Use
+								</Link>
 							</div>
-							<div className="flex flex-col gap-2">
-								<p className="text-muted">
-									By agreeing to the{" "}
-									<Link
-										to="/legal/privacy-policy"
-										className="text-accent hover:text-accent-hover font-bold"
-									>
-										Privacy Policy
-									</Link>
-									, you acknowledge that you have read, understood, and agreed to how we collect,
-									store, and manage your personal information.
+							<div className="flex flex-col gap-4">
+								<p className="text-muted text-sm">
+									To understand how we collect, use, and protect your personal information, please
+									review our Privacy Policy below.
 								</p>
-								<Checkbox
-									onChange={handlePrivacyChange}
-									checked={formData.privacy ?? false}
-									text="I agree to the Privacy Policy"
-								/>
+								<Link
+									to="/legal/privacy-policy"
+									className="text-accent hover:text-accent-hover font-bold transition-discrete duration-100 ease-in-out"
+								>
+									Privacy Policy
+								</Link>
 							</div>
-						</div>
-						<div className="flex flex-col gap-2">
-							<Checkbox
-								onChange={handleTermsAndPrivacyChange}
-								checked={formData.terms && formData.privacy}
-								text="I agree to the Terms of Use and Privacy Policy"
-							/>
 						</div>
 					</div>
 				</div>
-				<div className="flex w-full justify-center">
-					<Button size="lg" rounded="full" variant="accent" disabled={!isValid} aria-label="next">
-						Finish
+
+				<div
+					className={cn(
+						"transition-all duration-100 flex justify-center",
+						isSticky ? "sticky bottom-0" : "relative"
+					)}
+				>
+					<Button
+						type="submit"
+						size="lg"
+						rounded="full"
+						variant="accent"
+						aria-label="next"
+						disabled={isSticky}
+					>
+						Finalize
 					</Button>
 				</div>
 			</Form>
+			<div ref={bottomRef} className="h-1" />
 		</OnboardingViewContainer>
 	);
 }

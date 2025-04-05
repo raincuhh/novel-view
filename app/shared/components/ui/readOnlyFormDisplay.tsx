@@ -16,8 +16,10 @@ const ReadOnlyFormDisplay = ({ data, label, isCensored }: ReadOnlyFormDisplayPro
 			<h2 className="text-xl font-semibold select-none">{label}</h2>
 			{isCensored ? (
 				<div className="w-full flex relative justify-between items-center select-none">
-					<p className="text-muted">{censor ? censorStr(data ?? "") : data}</p>
-					<div onClick={() => setCensor(!censor)}>
+					<p className="text-muted">
+						{data ? (censor ? censorStr(data) : data ? data : "Not specified") : "Not specified"}
+					</p>
+					<div onClick={() => setCensor(!censor)} className="transition-all duration-100 ease-in-out">
 						{censor ? (
 							<Icon.eyeClosed className="fill-muted" />
 						) : (
@@ -26,7 +28,7 @@ const ReadOnlyFormDisplay = ({ data, label, isCensored }: ReadOnlyFormDisplayPro
 					</div>
 				</div>
 			) : (
-				<p className="text-muted select-none">{data ?? "Not specified"}</p>
+				<p className="text-muted select-none">{data ? (data ?? "Not specified") : "Not specified"}</p>
 			)}
 		</div>
 	);

@@ -77,7 +77,7 @@ export default function RegisterPasswordForm() {
 							error={errors.password}
 							className="text-2xl font-extrabold"
 						>
-							Password
+							What's your password?
 						</FormLabel>
 						<FormControl>
 							<Input
@@ -86,11 +86,12 @@ export default function RegisterPasswordForm() {
 								type="password"
 								autoComplete="off"
 								onChange={handlePasswordChange}
-								placeholder="Enter password"
+								// placeholder="Enter password"
 								aria-labelledby="passwordLabel"
 								value={formData.password ?? ""}
 							/>
 						</FormControl>
+						<FormDescription>Remember your password, minimum 10 characters.</FormDescription>
 						<FormMessage error={errors.password} />
 					</FormItem>
 					<FormItem>
@@ -100,7 +101,7 @@ export default function RegisterPasswordForm() {
 							error={errors.repeatPassword}
 							className="text-2xl font-extrabold"
 						>
-							Repeat password
+							Repeat your password
 						</FormLabel>
 						<FormControl>
 							<Input
@@ -109,11 +110,12 @@ export default function RegisterPasswordForm() {
 								type="password"
 								autoComplete="off"
 								onChange={handleRepeatPasswordChange}
-								placeholder="Repeat your password"
+								// placeholder="Repeat your password"
 								aria-labelledby="repeatPasswordLabel"
 								value={formData.repeatPassword ?? ""}
 							/>
 						</FormControl>
+						<FormDescription>Make sure its spelled correctly.</FormDescription>
 						<FormMessage error={errors.repeatPassword} />
 					</FormItem>
 				</div>

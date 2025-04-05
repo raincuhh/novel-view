@@ -1,9 +1,9 @@
-import { getEnvVar } from "./utils";
-
-const SUPABASE_URL: string = getEnvVar("SUPABASE_URL");
-const SUPABASE_PUBLIC_ANON_KEY: string = getEnvVar("SUPABASE_PUBLIC_ANON_KEY");
+const SUPABASE_URL: string = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY: string = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const POWERSYNC_URL: string = import.meta.env.VITE_POWERSYNC_URL;
 
 export const env = {
 	SUPABASE_URL,
-	SUPABASE_PUBLIC_ANON_KEY,
+	SUPABASE_ANON_KEY,
+	POWERSYNC_URL,
 };

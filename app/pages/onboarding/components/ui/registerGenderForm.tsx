@@ -59,13 +59,13 @@ export default function RegisterGenderForm() {
 		<OnboardingViewContainer>
 			<Form onSubmit={handleSubmit}>
 				<div className="flex flex-col gap-2 mt-12">
-					<h1 className="text-2xl font-semibold select-none">Choose Gender</h1>
+					<h1 className="text-2xl font-semibold select-none">Choose your gender</h1>
 					<div className="flex flex-row flex-wrap gap-2">
 						<RenderList
 							data={genderList}
 							render={(gender: GenderType, i: number) => (
 								<Button
-									type="button"
+									// type="button"
 									variant={gender === formData.gender ? "accent" : "outline"}
 									rounded="full"
 									key={i}
@@ -81,7 +81,7 @@ export default function RegisterGenderForm() {
 						/>
 					</div>
 				</div>
-				<div className="flex w-full justify-center">
+				{/* <div className="flex w-full justify-center">
 					<Button
 						size="lg"
 						rounded="full"
@@ -91,7 +91,7 @@ export default function RegisterGenderForm() {
 					>
 						Next
 					</Button>
-				</div>
+				</div> */}
 			</Form>
 		</OnboardingViewContainer>
 	);
