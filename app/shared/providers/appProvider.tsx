@@ -1,24 +1,24 @@
 import React, { PropsWithChildren, useEffect } from "react";
-import pipe from "../lib/pipe";
-import withProvider from "../components/utils/withProvider";
-import { ReactQueryProvider } from "./reactQueryProvider";
 import { useAuthStore } from "@/features/auth/authStore";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SystemProvider } from "./systemProvider";
 
 type AppProviderProps = PropsWithChildren<{}>;
 
 const AppProvider = ({ children }: AppProviderProps) => {
 	const initAuth = useAuthStore((state) => state.initAuth);
-
-	const AppWithProviders: React.ComponentType<PropsWithChildren> = pipe(withProvider(ReactQueryProvider))(
-		(props: PropsWithChildren<{}>) => <>{props.children}</>
-	);
+	const queryClient = React.useMemo(() => new QueryClient(), []);
 
 	useEffect(() => {
 		const cleanup = initAuth();
 		return cleanup;
 	}, [initAuth]);
 
-	return <AppWithProviders>{children}</AppWithProviders>;
+	return (
+		<QueryClientProvider client={queryClient}>
+			<SystemProvider>{children}</SystemProvider>
+		</QueryClientProvider>
+	);
 };
 
 export default AppProvider;

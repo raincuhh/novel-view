@@ -3,12 +3,12 @@ import { column, Schema, Table } from "@powersync/web";
 const profiles = new Table(
 	{
 		profile_id: column.integer, // INTEGER for primary key and auto increment
-		user_id: column.text, // TEXT for UUID since SQLite doesn't support UUIDs
+		user_id: column.text, // TEXT for UUID since SQLite doesnt support UUIDs
 		username: column.text,
 		email: column.text,
 		gender: column.text, // TEXT for gender
 		dob: column.text, // TEXT for datetime (timestamps can be stored as ISO strings)
-		synced: column.integer, // INTEGER for boolean values (0 = false, 1 = true)
+		synced: column.integer, // INTEGER for boolean values
 		created_at: column.text, // TEXT for timestamps
 		updated_at: column.text, // TEXT for timestamps
 	},
@@ -26,7 +26,7 @@ const libraries = new Table({
 	name: column.text,
 	description: column.text,
 	cover_url: column.text,
-	type: column.text, // Use TEXT for ENUMs
+	type: column.text, // TEXT for ENUMs
 	synced: column.integer, // INTEGER for boolean values
 	author: column.text,
 	created_at: column.text,
@@ -40,13 +40,13 @@ const books = new Table(
 		user_id: column.text, // TEXT for UUID
 		title: column.text,
 		author: column.text,
-		metadata: column.text, // Use TEXT for JSON data
-		toc: column.text, // Use TEXT for JSON data
+		metadata: column.text, // TEXT for JSON data
+		toc: column.text, // TEXT for JSON data
 		cover_image_url: column.text,
 		epub_url: column.text,
 		is_saved: column.integer, // INTEGER for boolean values
 		read_count: column.integer, // INTEGER for integer values
-		last_read_at: column.text, // Use TEXT for datetime
+		last_read_at: column.text, // TEXT for datetime
 		synced: column.integer, // INTEGER for boolean values
 		created_at: column.text,
 		updated_at: column.text,
@@ -58,7 +58,7 @@ const bookContents = new Table(
 	{
 		book_content_id: column.integer, // INTEGER for primary key
 		book_id: column.integer, // INTEGER for foreign key reference
-		content_json: column.text, // Use TEXT for JSON data
+		content_json: column.text, // TEXT for JSON data
 		parsing_version: column.integer,
 		created_at: column.text,
 		updated_at: column.text,

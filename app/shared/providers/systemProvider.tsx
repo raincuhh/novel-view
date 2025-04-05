@@ -1,8 +1,13 @@
 import React, { createContext, Suspense, useContext, useEffect, useState } from "react";
 import { SupabaseConnector } from "../lib/supabaseConnector";
-import { PowerSyncDatabase } from "@powersync/web";
 import { AppSchema } from "../lib/appSchema";
+import { Capacitor } from "@capacitor/core";
 import { PowerSyncContext } from "@powersync/react";
+import { PowerSyncDatabase } from "@powersync/web";
+
+const platform = Capacitor.getPlatform();
+const isIOs = platform === "ios";
+const useWebWorker = !isIOs;
 
 const SupabaseContext = createContext<SupabaseConnector | null>(null);
 export const useSupabase = () => useContext(SupabaseContext);
@@ -15,28 +20,24 @@ export const db = new PowerSyncDatabase({
 });
 
 export const SystemProvider = ({ children }: { children: React.ReactNode }) => {
-	const [connector] = useState(new SupabaseConnector());
-	const [powerSync] = useState(db);
+	const [connector] = useState<SupabaseConnector>(new SupabaseConnector());
+	const [powerSync, setPowerSync] = useState<InstanceType<typeof PowerSyncDatabase> | null>(null);
 
 	useEffect(() => {
-		(window as any).__powersync = powerSync;
+		(window as any)._powersync = powerSync;
 
-		powerSync.init();
-		const listener = connector.registerListener({
-			initialized: () => {},
-			sessionStarted: () => {
-				powerSync.connect(connector);
-			},
-		});
+		if (powerSync) powerSync.init();
+	}, [powerSync]);
 
-		connector.init();
-
-		return () => listener?.();
-	}, [powerSync, connector]);
+	if (!powerSync) {
+		return <div>Loading...</div>;
+	}
 
 	return (
-		<PowerSyncContext.Provider value={powerSync}>
-			<SupabaseContext.Provider value={connector}>{children}</SupabaseContext.Provider>
-		</PowerSyncContext.Provider>
+		<Suspense fallback={<div>Loading...</div>}>
+			<PowerSyncContext.Provider value={powerSync}>
+				<SupabaseContext.Provider value={connector}>{children}</SupabaseContext.Provider>
+			</PowerSyncContext.Provider>
+		</Suspense>
 	);
 };
